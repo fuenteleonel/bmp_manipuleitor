@@ -19,23 +19,6 @@
     -----------------
 */
 #include "funciones_grupo.h"
-#include "estructuras.h"
-
-#define TIPO_BMP 0x4D42
-#define RED 2
-#define GREEN 1
-#define BLUE 0
-#define TAM_HEADER 54
-#define ARCH_NO_ENCONTRADO 3
-#define FORMATO_INCORRECTO 4
-
-void matrizDestruir(void** mat,int filas)
-{
-    void** ult = mat + filas - 1;
-    for(void** i= mat; i<= ult;i++)
-        free(*i);
-    free(mat);
-}
 
 void** matrizCrear(size_t tamElem, int filas, int columnas)
 {
@@ -54,6 +37,14 @@ void** matrizCrear(size_t tamElem, int filas, int columnas)
         }
     }
     return mat;
+}
+
+void matrizDestruir(void** mat,int filas)
+{
+    void** ult = mat + filas - 1;
+    for(void** i= mat; i<= ult;i++)
+        free(*i);
+    free(mat);
 }
 
 void paddingInicial(FILE* pf, int comienzoImagen) //Escribe bytes de padding en un puntero desde el final del header

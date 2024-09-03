@@ -49,3 +49,39 @@
 
 1712539559 /home/ezequiel/Escritorio/bmpmanipuleitor/funciones_estudiante.h
 
+1725403091 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_fernandes.c
+
+1725403091 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_fuente.c
+	"funciones_fuente.h"
+	"estructuras.h"
+
+1725404065 c:\users\matias\downloads\bmp_manipuleitor\funciones_fuente.h
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	"estructuras.h"
+
+1725403927 c:\users\matias\downloads\bmp_manipuleitor\funciones_grupo.h
+	"funciones_rufino.h"
+	"funciones_fuente.h"
+	"funciones_fernandes.h"
+	"funciones_wu.h"
+
+1725404620 c:\users\matias\downloads\bmp_manipuleitor\funciones_fernandes.h
+	"funciones_fuente.h"
+
+1725404620 c:\users\matias\downloads\bmp_manipuleitor\funciones_wu.h
+	"funciones_fuente.h"
+
+1725403091 c:\users\matias\downloads\bmp_manipuleitor\estructuras.h
+
+1725403091 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_wu.c
+
+1725403091 source:c:\users\matias\downloads\bmp_manipuleitor\main.c
+	<stdio.h>
+	"funciones_grupo.h"
+
+1725404065 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_grupo.c
+	"funciones_grupo.h"
+
