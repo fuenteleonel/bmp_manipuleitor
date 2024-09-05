@@ -20,44 +20,6 @@
 */
 #include "funciones_grupo.h"
 
-void** matrizCrear(size_t tamElem, int filas, int columnas)
-{
-    void** mat = malloc(sizeof(void*)*filas);
-    if(!mat)
-        return NULL;
-
-    void** ult = mat + filas - 1;
-    for(void** i = mat; i <= ult; i++)
-    {
-        *i = malloc(tamElem * columnas);
-        if(!*i)
-        {
-            matrizDestruir(mat, i-mat);
-            return NULL;
-        }
-    }
-    return mat;
-}
-
-void matrizDestruir(void** mat,int filas)
-{
-    void** ult = mat + filas - 1;
-    for(void** i= mat; i<= ult;i++)
-        free(*i);
-    free(mat);
-}
-
-void paddingInicial(FILE* pf, int comienzoImagen) //Escribe bytes de padding en un puntero desde el final del header
-{                                                 //el comienzo de la imagen
-    char zero = '0';
-    fwrite(&zero, sizeof(char), comienzoImagen-TAM_HEADER, pf);
-}
-
-void paddingLinea(FILE* pf, int cantidad)
-{
-    char zero = '0';
-    fwrite(&zero, sizeof(char), cantidad, pf);
-}
 
 int solucion(int argc, char* argv[])
 {
@@ -80,8 +42,37 @@ int solucion(int argc, char* argv[])
     }
 
     fread(&encabezado,sizeof(t_header), 1, pf);
+    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
 
-    matrizCrear(encabezado.tamArchivo, encabezado.alto,encabezado.ancho);
+    FILE *pf2 = fopen("unlam-copia.bmp", "wb");
+
+    if(!pf2)
+    {
+        puts("Error al intentar abrir el archivo.");
+        return ARCH_NO_ENCONTRADO;
+    }
+
+    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
+
+    fwrite(&encabezado,sizeof(t_header), 1, pf2);
+
+    fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
+
+    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho);
+
+    for(int i = 0; i < encabezado.alto; i++)
+    {
+        for(int j = 0; j < (encabezado.ancho); j++)
+        {
+
+            fread(&matImgOrig[i][j],sizeof(char),3,pf);
+
+            fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
+
+        }
+    }
+
+
 
     return 0;
 }
