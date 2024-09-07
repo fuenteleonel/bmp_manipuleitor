@@ -3,8 +3,9 @@
 
 #include "funciones_fuente.h"
 
-/*negativo, escalaDeGrises, rotarIzquierda, recortar*/
+/*negativo, rotarIzquierda, recortar*/
 
 void tonalidadAzul(t_pixel *pixel, unsigned char porcentaje);
+void escalaDeGrises(t_pixel *pixel);
 
 #endif // FUNCIONES_WU_H_INCLUDED

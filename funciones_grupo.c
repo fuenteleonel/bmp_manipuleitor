@@ -23,6 +23,57 @@
 
 int solucion(int argc, char* argv[])
 {
+//    FILE *pf = fopen("unlam.bmp", "rb"); ESTO FUNCIONA
+//    t_header encabezado;
+//    unsigned short tipoFichero;
+//
+//    if(!pf)
+//    {
+//        puts("Error al intentar abrir el archivo.");
+//        return ARCH_NO_ENCONTRADO;
+//    }
+//
+//    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
+//
+//    if(tipoFichero != TIPO_BMP)
+//    {
+//        fclose(pf);
+//        return FORMATO_INCORRECTO;
+//    }
+//
+//    fread(&encabezado,sizeof(t_header), 1, pf);
+//    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
+//
+//    FILE *pf2 = fopen("unlam-copia.bmp", "wb");
+//
+//    if(!pf2)
+//    {
+//        puts("Error al intentar abrir el archivo.");
+//        return ARCH_NO_ENCONTRADO;
+//    }
+//
+//    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
+//
+//    fwrite(&encabezado,sizeof(t_header), 1, pf2);
+//
+//    fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
+//
+//    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho);
+//
+//    for(int i = 0; i < encabezado.alto; i++)
+//    {
+//        for(int j = 0; j < (encabezado.ancho); j++)
+//        {
+//
+//            fread(&matImgOrig[i][j],sizeof(char),3,pf);
+//
+//            escalaDeGrises(&matImgOrig[i][j]);
+//
+//            fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
+//
+//        }
+//    }
+
     FILE *pf = fopen("unlam.bmp", "rb");
     t_header encabezado;
     unsigned short tipoFichero;
@@ -54,6 +105,11 @@ int solucion(int argc, char* argv[])
 
     fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
 
+    encabezado.alto /= 2;
+    encabezado.ancho /= 2;
+    encabezado.tamImagen = encabezado.alto * encabezado.ancho;
+    encabezado.tamArchivo = encabezado.tamImagen + TAM_HEADER;
+
     fwrite(&encabezado,sizeof(t_header), 1, pf2);
 
     fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
@@ -62,19 +118,19 @@ int solucion(int argc, char* argv[])
 
     for(int i = 0; i < encabezado.alto; i++)
     {
-        for(int j = 0; j < (encabezado.ancho); j++)
+        for(int j = 0; j < encabezado.ancho; j++)
         {
 
-            fread(&matImgOrig[i][j],sizeof(char),3,pf);
+            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
 
-            tonalidadVerde(&matImgOrig[i][j], 25);
+            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
 
-            fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
+            fseek(pf, sizeof(t_pixel) * 2, SEEK_CUR);
 
         }
+
+        fseek(pf, sizeof(t_pixel) * encabezado.ancho, SEEK_CUR);
     }
-
-
 
     return 0;
 }
