@@ -67,7 +67,7 @@ int solucion(int argc, char* argv[])
 
             fread(&matImgOrig[i][j],sizeof(char),3,pf);
 
-            reducirContraste(&matImgOrig[i][j], 25);
+            tonalidadVerde(&matImgOrig[i][j], 25);
 
             fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
 

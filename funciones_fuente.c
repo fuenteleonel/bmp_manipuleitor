@@ -39,7 +39,7 @@ void paddingLinea(FILE* pf, int cantidad)
     fwrite(&zero, sizeof(char), cantidad, pf);
 }
 
-void aplicarPorcentaje(unsigned char *color, float porcentaje, unsigned char limite)
+void aumentarPorcentaje(unsigned char *color, float porcentaje, unsigned char limite)
 {
     int aux = *color;
     aux += aux * porcentaje / 100;
@@ -53,7 +53,7 @@ void aplicarPorcentaje(unsigned char *color, float porcentaje, unsigned char lim
     }
 }
 
-void aplicarPorcentajeMin(unsigned char *color, float porcentaje, unsigned char limite)
+void disminuirPorcentaje(unsigned char *color, float porcentaje, unsigned char limite)
 {
     int aux = *color;
     aux -= aux * porcentaje / 100;
@@ -73,16 +73,24 @@ void aumentarContraste(t_pixel *pixel, unsigned char porcentaje)
 
     if(promedio > VALOR_MEDIO_COLOR)
     {
-        aplicarPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
-        aplicarPorcentaje(&pixel->color[RED], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
-        aplicarPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
+        aumentarPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
+        aumentarPorcentaje(&pixel->color[RED], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
+        aumentarPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
 
     }
     else
     {
-        aplicarPorcentajeMin(&pixel->color[BLUE], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
-        aplicarPorcentajeMin(&pixel->color[RED], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
-        aplicarPorcentajeMin(&pixel->color[GREEN], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
+        disminuirPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
+        disminuirPorcentaje(&pixel->color[RED], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
+        disminuirPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
     }
+
+}
+
+void tonalidadRoja(t_pixel *pixel, unsigned char porcentaje)
+{
+    aumentarPorcentaje(&pixel->color[RED], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
+    disminuirPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
+    disminuirPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
 
 }
