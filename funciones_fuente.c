@@ -39,3 +39,50 @@ void paddingLinea(FILE* pf, int cantidad)
     fwrite(&zero, sizeof(char), cantidad, pf);
 }
 
+void aplicarPorcentaje(unsigned char *color, float porcentaje, unsigned char limite)
+{
+    int aux = *color;
+    aux += aux * porcentaje / 100;
+    if(aux > limite)
+    {
+        *color = limite;
+    }
+    else
+    {
+        *color = aux;
+    }
+}
+
+void aplicarPorcentajeMin(unsigned char *color, float porcentaje, unsigned char limite)
+{
+    int aux = *color;
+    aux -= aux * porcentaje / 100;
+    if(aux < limite)
+    {
+        *color = limite;
+    }
+    else
+    {
+        *color = aux;
+    }
+}
+
+void aumentarContraste(t_pixel *pixel, unsigned char porcentaje)
+{
+    unsigned char promedio = (pixel->color[BLUE] + pixel->color[RED] + pixel->color[GREEN])/3;
+
+    if(promedio > VALOR_MEDIO_COLOR)
+    {
+        aplicarPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
+        aplicarPorcentaje(&pixel->color[RED], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
+        aplicarPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
+
+    }
+    else
+    {
+        aplicarPorcentajeMin(&pixel->color[BLUE], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
+        aplicarPorcentajeMin(&pixel->color[RED], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
+        aplicarPorcentajeMin(&pixel->color[GREEN], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
+    }
+
+}

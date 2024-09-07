@@ -3,7 +3,7 @@
 
 typedef struct
 {
-    unsigned char pixel[3];
+    unsigned char color[3];
     unsigned int profundidad; //Esta estructura admite formatos de distinta profundidad de color.
 
 }t_pixel;
