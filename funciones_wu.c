@@ -16,3 +16,10 @@ void escalaDeGrises(t_pixel *pixel)
     pixel->color[GREEN] = promedio;
     pixel->color[RED] = promedio;
 }
+
+void negativo(t_pixel *pixel)
+{
+    pixel->color[BLUE]= VALOR_MAX_COLOR_24_BITS_PROF - pixel->color[BLUE];
+    pixel->color[RED]= VALOR_MAX_COLOR_24_BITS_PROF - pixel->color[RED];
+    pixel->color[GREEN]= VALOR_MAX_COLOR_24_BITS_PROF - pixel->color[GREEN];
+}
