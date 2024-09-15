@@ -1,25 +1,25 @@
 #include "funciones_fuente.h"
 
-void** matrizCrear(size_t tamElem, int filas, int columnas)
+void** matrizCrear(size_t tamElem, size_t filas, size_t columnas)
 {
-    void** mat = malloc(sizeof(void*)*filas);
+    void** mat = (void**)malloc(sizeof(void*)* filas);
     if(!mat)
         return NULL;
 
     void** ult = mat + filas - 1;
     for(void** i = mat; i <= ult; i++)
     {
-        *i = malloc(tamElem * columnas);
+        *i = (void**)malloc(tamElem * columnas);
         if(!*i)
         {
-            matrizDestruir(mat, i-mat);
+            matrizDestruir(mat, (size_t)(i-mat));
             return NULL;
         }
     }
     return mat;
 }
 
-void matrizDestruir(void** mat,int filas)
+void matrizDestruir(void** mat, size_t filas)
 {
     void** ult = mat + filas - 1;
     for(void** i= mat; i<= ult;i++)

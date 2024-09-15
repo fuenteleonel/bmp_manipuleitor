@@ -23,8 +23,8 @@
 
 /*espejarVertical, concatenarHorizontal, achicar*/
 
-void** matrizCrear(size_t tamElem, int filas, int columnas);
-void matrizDestruir(void** mat,int filas);
+void** matrizCrear(size_t tamElem, size_t filas, size_t columnas);
+void matrizDestruir(void** mat, size_t filas);
 void paddingInicial(FILE* pf, int comienzoImagen);
 void paddingLinea(FILE* pf, int cantidad);
 

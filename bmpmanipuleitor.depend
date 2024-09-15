@@ -85,40 +85,40 @@
 1725404065 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_grupo.c
 	"funciones_grupo.h"
 
-1725684287 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fernandes.c
+1726272786 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fernandes.c
 	"funciones_fernandes.h"
 
-1725684411 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fuente.c
+1726427009 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fuente.c
 	"funciones_fuente.h"
 
-1725687985 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fuente.h
+1726424628 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fuente.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
 	<string.h>
 	"estructuras.h"
 
-1725689188 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\estructuras.h
+1726272786 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\estructuras.h
 
-1725687985 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_grupo.c
+1726428276 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_grupo.c
 	"funciones_grupo.h"
 
-1725666193 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_grupo.h
+1726272786 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_grupo.h
 	"funciones_rufino.h"
 	"funciones_fuente.h"
 	"funciones_fernandes.h"
 	"funciones_wu.h"
 
-1725684500 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fernandes.h
+1726272786 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fernandes.h
 	"funciones_fuente.h"
 
-1725685810 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_wu.h
+1726272786 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_wu.h
 	"funciones_fuente.h"
 
-1725685703 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_wu.c
+1726272786 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_wu.c
 	"funciones_wu.h"
 
-1725508965 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\main.c
+1726272786 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\main.c
 	<stdio.h>
 	"funciones_grupo.h"
 

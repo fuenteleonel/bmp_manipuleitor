@@ -75,7 +75,7 @@ int solucion(int argc, char* argv[])
 //    }
 
     FILE *pf = fopen("unlam.bmp", "rb");
-    t_header encabezado;
+    t_header encabezado, encabezadoNuevo;
     unsigned short tipoFichero;
 
     if(!pf)
@@ -93,6 +93,7 @@ int solucion(int argc, char* argv[])
     }
 
     fread(&encabezado,sizeof(t_header), 1, pf);
+    encabezadoNuevo = encabezado;
     fseek(pf, encabezado.comienzoImagen, SEEK_SET);
 
     FILE *pf2 = fopen("unlam-copia.bmp", "wb");
@@ -100,37 +101,34 @@ int solucion(int argc, char* argv[])
     if(!pf2)
     {
         puts("Error al intentar abrir el archivo.");
+        fclose(pf);
         return ARCH_NO_ENCONTRADO;
     }
 
     fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
 
-    encabezado.alto /= 2;
-    encabezado.ancho /= 2;
-    encabezado.tamImagen = encabezado.alto * encabezado.ancho;
-    encabezado.tamArchivo = encabezado.tamImagen + TAM_HEADER;
+    encabezadoNuevo.alto /= 2;
+    encabezadoNuevo.ancho /= 2;
+    encabezadoNuevo.tamImagen = encabezadoNuevo.alto * encabezadoNuevo.ancho * 3;
+    encabezadoNuevo.tamArchivo = encabezadoNuevo.tamImagen + TAM_HEADER;
 
-    fwrite(&encabezado,sizeof(t_header), 1, pf2);
+    fwrite(&encabezadoNuevo,sizeof(t_header), 1, pf2);
 
-    fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
+    fseek(pf2, encabezadoNuevo.comienzoImagen, SEEK_SET);
 
-    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho);
+    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
 
     for(int i = 0; i < encabezado.alto; i++)
-    {
         for(int j = 0; j < encabezado.ancho; j++)
-        {
-
             fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
 
+    for(int i = 0; i < encabezado.alto; i+=2)
+        for(int j = 0; j < encabezado.ancho; j+=2)
             fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
 
-            fseek(pf, sizeof(t_pixel) * 2, SEEK_CUR);
-
-        }
-
-        fseek(pf, sizeof(t_pixel) * encabezado.ancho, SEEK_CUR);
-    }
+    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
+    fclose(pf);
+    fclose(pf2);
 
     return 0;
 }
