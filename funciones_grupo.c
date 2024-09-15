@@ -23,6 +23,7 @@
 
 int solucion(int argc, char* argv[])
 {
+///Todas las basicas///
 //    FILE *pf = fopen("unlam.bmp", "rb"); ESTO FUNCIONA
 //    t_header encabezado;
 //    unsigned short tipoFichero;
@@ -74,8 +75,66 @@ int solucion(int argc, char* argv[])
 //        }
 //    }
 
+///Achicar///
+//    FILE *pf = fopen("unlam.bmp", "rb");
+//    t_header encabezado, encabezadoNuevo;
+//    unsigned short tipoFichero;
+//
+//    if(!pf)
+//    {
+//        puts("Error al intentar abrir el archivo.");
+//        return ARCH_NO_ENCONTRADO;
+//    }
+//
+//    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
+//
+//    if(tipoFichero != TIPO_BMP)
+//    {
+//        fclose(pf);
+//        return FORMATO_INCORRECTO;
+//    }
+//
+//    fread(&encabezado,sizeof(t_header), 1, pf);
+//    encabezadoNuevo = encabezado;
+//    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
+//
+//    FILE *pf2 = fopen("unlam-copia.bmp", "wb");
+//
+//    if(!pf2)
+//    {
+//        puts("Error al intentar abrir el archivo.");
+//        fclose(pf);
+//        return ARCH_NO_ENCONTRADO;
+//    }
+//
+//    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
+//
+//    encabezadoNuevo.alto /= 2;
+//    encabezadoNuevo.ancho /= 2;
+//    encabezadoNuevo.tamImagen = encabezadoNuevo.alto * encabezadoNuevo.ancho * 3;
+//    encabezadoNuevo.tamArchivo = encabezadoNuevo.tamImagen + TAM_HEADER;
+//
+//    fwrite(&encabezadoNuevo,sizeof(t_header), 1, pf2);
+//
+//    fseek(pf2, encabezadoNuevo.comienzoImagen, SEEK_SET);
+//
+//    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
+//
+//    for(int i = 0; i < encabezado.alto; i++)
+//        for(int j = 0; j < encabezado.ancho; j++)
+//            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+//
+//    for(int i = 0; i < encabezado.alto; i+=2)
+//        for(int j = 0; j < encabezado.ancho; j+=2)
+//            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
+//
+//    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
+//    fclose(pf);
+//    fclose(pf2);
+//
+//    return 0;
     FILE *pf = fopen("unlam.bmp", "rb");
-    t_header encabezado, encabezadoNuevo;
+    t_header encabezado;
     unsigned short tipoFichero;
 
     if(!pf)
@@ -93,7 +152,6 @@ int solucion(int argc, char* argv[])
     }
 
     fread(&encabezado,sizeof(t_header), 1, pf);
-    encabezadoNuevo = encabezado;
     fseek(pf, encabezado.comienzoImagen, SEEK_SET);
 
     FILE *pf2 = fopen("unlam-copia.bmp", "wb");
@@ -107,26 +165,36 @@ int solucion(int argc, char* argv[])
 
     fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
 
-    encabezadoNuevo.alto /= 2;
-    encabezadoNuevo.ancho /= 2;
-    encabezadoNuevo.tamImagen = encabezadoNuevo.alto * encabezadoNuevo.ancho * 3;
-    encabezadoNuevo.tamArchivo = encabezadoNuevo.tamImagen + TAM_HEADER;
 
-    fwrite(&encabezadoNuevo,sizeof(t_header), 1, pf2);
+    fwrite(&encabezado,sizeof(t_header), 1, pf2);
 
-    fseek(pf2, encabezadoNuevo.comienzoImagen, SEEK_SET);
+    fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
 
-    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
+///Espejar Vertical///
+//    t_pixel** matEspejadaV = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
+//
+//    for(int i = encabezado.alto - 1; i >= 0; i--)
+//        for(int j = encabezado.ancho - 1; j >= 0; j--)
+//            fread(&matEspejadaV[i][j], sizeof(t_pixel), 1, pf);
+//
+//    for(int i = 0; i < encabezado.alto; i++)
+//        for(int j = 0; j < encabezado.ancho; j++)
+//            fwrite(&matEspejadaV[i][j], sizeof(t_pixel), 1, pf2);
+//
+//    matrizDestruir((void**)matEspejadaV, (size_t)encabezado.alto);
+
+ ///Espejar Horizontal///
+    t_pixel** matEspejadaH = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
+
+    for(int i = 0; i < encabezado.alto; i++)
+        for(int j = encabezado.ancho - 1; j >= 0; j--)
+            fread(&matEspejadaH[i][j], sizeof(t_pixel), 1, pf);
 
     for(int i = 0; i < encabezado.alto; i++)
         for(int j = 0; j < encabezado.ancho; j++)
-            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+            fwrite(&matEspejadaH[i][j], sizeof(t_pixel), 1, pf2);
 
-    for(int i = 0; i < encabezado.alto; i+=2)
-        for(int j = 0; j < encabezado.ancho; j+=2)
-            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
-
-    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
+    matrizDestruir((void**)matEspejadaH, (size_t)encabezado.alto);
     fclose(pf);
     fclose(pf2);
 
