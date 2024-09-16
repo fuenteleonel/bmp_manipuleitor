@@ -27,13 +27,13 @@ void matrizDestruir(void** mat, size_t filas)
     free(mat);
 }
 
-void paddingInicial(FILE* pf, int comienzoImagen) //Escribe bytes de padding en un puntero desde el final del header
-{                                                 //el comienzo de la imagen
+void paddingInicial(FILE* pf, int comienzoImagen) ///Escribe bytes de padding en un puntero desde el final del header hasta el comienzo de la imagen
+{
     char zero = '0';
     fwrite(&zero, sizeof(char), comienzoImagen-TAM_HEADER, pf);
 }
 
-void paddingLinea(FILE* pf, int cantidad)
+void paddingLinea(FILE* pf, int cantidad) /// Escribe bytes de padding para hacer que una linea sea divisible por 4
 {
     char zero = '0';
     fwrite(&zero, sizeof(char), cantidad, pf);
