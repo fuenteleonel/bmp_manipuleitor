@@ -20,8 +20,9 @@
 
 #define ARCH_NO_ENCONTRADO 3
 #define FORMATO_INCORRECTO 4
+#define ERROR_CREAR_ARCHIVO 5
 
-/*espejarVertical, concatenarHorizontal, achicar*/
+/*concatenarHorizontal*/
 
 void** matrizCrear(size_t tamElem, size_t filas, size_t columnas);
 void matrizDestruir(void** mat, size_t filas);

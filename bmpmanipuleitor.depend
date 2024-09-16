@@ -91,7 +91,7 @@
 1726427009 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fuente.c
 	"funciones_fuente.h"
 
-1726424628 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fuente.h
+1726524724 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fuente.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -100,7 +100,7 @@
 
 1726272786 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\estructuras.h
 
-1726428276 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_grupo.c
+1726525005 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_grupo.c
 	"funciones_grupo.h"
 
 1726272786 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_grupo.h
@@ -109,13 +109,13 @@
 	"funciones_fernandes.h"
 	"funciones_wu.h"
 
-1726272786 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fernandes.h
+1726523320 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fernandes.h
 	"funciones_fuente.h"
 
-1726272786 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_wu.h
+1726523319 c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_wu.h
 	"funciones_fuente.h"
 
-1726272786 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_wu.c
+1726522901 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_wu.c
 	"funciones_wu.h"
 
 1726272786 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\main.c
