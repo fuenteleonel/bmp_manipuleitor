@@ -425,5 +425,72 @@ int solucion(int argc, char* argv[])
     fclose(pf2);
     fclose(pf3);
 
+
+///Rotar
+//    FILE *pf = fopen("unlam.bmp", "rb");
+//    t_header encabezado, encabezadoNuevo;
+//    unsigned short tipoFichero;
+//
+//    if(!pf)
+//    {
+//        puts("Error al intentar abrir el archivo.");
+//        return ARCH_NO_ENCONTRADO;
+//    }
+//
+//    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
+//
+//    if(tipoFichero != TIPO_BMP)
+//    {
+//        fclose(pf);
+//        return FORMATO_INCORRECTO;
+//    }
+//
+//    fread(&encabezado,sizeof(t_header), 1, pf);
+//    encabezadoNuevo = encabezado;
+//
+//    FILE *pf2 = fopen("unlam-copia.bmp", "wb");
+//
+//    if(!pf2)
+//    {
+//        puts("Error al intentar abrir el archivo.");
+//        fclose(pf);
+//        return ARCH_NO_ENCONTRADO;
+//    }
+//
+//    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
+//
+//    encabezadoNuevo.alto = encabezado.ancho;
+//    encabezadoNuevo.ancho = encabezado.alto;
+//
+//    fwrite(&encabezadoNuevo,sizeof(t_header), 1, pf2);
+//
+//    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
+//    fseek(pf2, encabezadoNuevo.comienzoImagen, SEEK_SET);
+//
+//    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
+//
+/////RotarDerecha
+////    for(int i = 0; i < encabezado.alto; i++)
+////        for(int j = 0; j < encabezado.ancho; j++)
+////            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+////
+////    for(int i = encabezado.ancho - 1; i >= 0; i--)
+////        for(int j = 0; j < encabezado.alto; j++)
+////            fwrite(&matImgOrig[j][i], sizeof(t_pixel), 1, pf2);
+//
+/////RotarIzq
+//    for(int i = 0; i < encabezado.alto; i++)
+//        for(int j = 0; j < encabezado.ancho; j++)
+//            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+//
+//    for(int i = 0; i < encabezado.ancho; i++)
+//        for(int j = encabezado.alto - 1; j >= 0; j--)
+//            fwrite(&matImgOrig[j][i], sizeof(t_pixel), 1, pf2);
+//
+//    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
+//    fclose(pf);
+//    fclose(pf2);
+
+
     return 0;
 }
