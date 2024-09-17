@@ -273,19 +273,15 @@ int solucion(int argc, char* argv[])
     char color [3]= {0,0,255};
 
     for(int i = 0; i < encabezado2.alto; i++)
-        for(int j = 0; j < encabezado2.ancho; j++)
-            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
+        fread(matImgOrig[i], sizeof(t_pixel), encabezado2.ancho, pf2);
 
     for(int i = 0; i < encabezado2.alto; i++)
     {
-        for(int j = 0; j < encabezado2.ancho; j++)
-        {
-            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf3);
-        }
+        fwrite(matImgOrig[i], sizeof(t_pixel), encabezado2.ancho, pf3);
         if(encabezado2.ancho < encabezado.ancho)
         {
-            for(int i=0; i<(encabezado.ancho - encabezado2.ancho); i++)
-                fwrite(&color, sizeof(char), 3, pf3);
+            for(int j=0; j<(encabezado.ancho - encabezado2.ancho); j++)
+                fwrite(&color, sizeof(t_pixel), 1, pf3);
         }
     }
 
@@ -294,19 +290,15 @@ int solucion(int argc, char* argv[])
     matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
 
     for(int i = 0; i < encabezado.alto; i++)
-        for(int j = 0; j < encabezado.ancho; j++)
-            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+            fread(matImgOrig[i], sizeof(t_pixel), encabezado.ancho, pf);
 
     for(int i = 0; i < encabezado.alto; i++)
     {
-        for(int j = 0; j < encabezado.ancho; j++)
-        {
-            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf3);
-        }
+            fwrite(matImgOrig[i], sizeof(t_pixel), encabezado.ancho, pf3);
         if(encabezado.ancho < encabezado2.ancho)
         {
-            for(int i=0; i<(encabezado2.ancho - encabezado.ancho); i++)
-                fwrite(&color, sizeof(char), 3, pf3);
+            for(int j=0; j<(encabezado2.ancho - encabezado.ancho); j++)
+                fwrite(&color, sizeof(t_pixel), 1, pf3);
         }
     }
     matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);

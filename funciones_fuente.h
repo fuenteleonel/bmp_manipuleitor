@@ -22,7 +22,6 @@
 #define FORMATO_INCORRECTO 4
 #define ERROR_CREAR_ARCHIVO 5
 
-/*concatenarHorizontal*/
 
 void** matrizCrear(size_t tamElem, size_t filas, size_t columnas);
 void matrizDestruir(void** mat, size_t filas);
