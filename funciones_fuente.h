@@ -18,6 +18,7 @@
 #define VALOR_MAX_COLOR_24_BITS_PROF 255
 
 
+#define TODO_OK 0
 #define ARCH_NO_ENCONTRADO 3
 #define FORMATO_INCORRECTO 4
 #define ERROR_CREAR_ARCHIVO 5
@@ -34,5 +35,15 @@ void disminuirPorcentaje(unsigned char *color, float porcentaje, unsigned char l
 
 void aumentarContraste(t_pixel *pixel, unsigned char porcentaje);
 void tonalidadRoja(t_pixel *pixel, unsigned char porcentaje);
+int achicar();
+int espejarVertical();
+int concatenarHorizontal();
+void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDeGrises,
+                   bool* argAumentarContraste, bool* argReducirContraste,
+                   bool* argTonalidadAzul, bool* argTonalidadVerde, bool* argTonalidadRoja,
+                   bool* argRotarDerecha, bool* argRotarIzquierda,
+                   bool* argComodin, bool* argConcatenarHorizontal, bool* argConcatenarVertical,
+                   bool* argEspejarVertical, bool* argEspejarHorizontal,
+                   char** nombreArchivo, char** nombreArchivo2);
 
 #endif // FUNCIONES_FUENTE_H_INCLUDED

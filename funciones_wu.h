@@ -8,5 +8,6 @@
 void tonalidadAzul(t_pixel *pixel, unsigned char porcentaje);
 void escalaDeGrises(t_pixel *pixel);
 void negativo(t_pixel *pixel);
+int rotarIzquierda();
 
 #endif // FUNCIONES_WU_H_INCLUDED
