@@ -126,10 +126,10 @@
 1726436299 source:c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_fernandes.c
 	"funciones_fernandes.h"
 
-1726436299 c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_fernandes.h
+1726535601 c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_fernandes.h
 	"funciones_fuente.h"
 
-1726436299 c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_fuente.h
+1726531289 c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_fuente.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -138,7 +138,7 @@
 
 1726436299 c:\users\pd209\desktop\tops\bmp_manipuleitor\estructuras.h
 
-1726436299 source:c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_fuente.c
+1726531289 source:c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_fuente.c
 	"funciones_fuente.h"
 
 1726436299 source:c:\users\pd209\desktop\tops\bmp_manipuleitor\main.c
@@ -151,12 +151,12 @@
 	"funciones_fernandes.h"
 	"funciones_wu.h"
 
-1726437686 c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_wu.h
+1726535601 c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_wu.h
 	"funciones_fuente.h"
 
 1726437789 source:c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_wu.c
 	"funciones_wu.h"
 
-1726438732 source:c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_grupo.c
+1726537167 source:c:\users\pd209\desktop\tops\bmp_manipuleitor\funciones_grupo.c
 	"funciones_grupo.h"
 

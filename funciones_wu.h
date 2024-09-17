@@ -3,7 +3,7 @@
 
 #include "funciones_fuente.h"
 
-/*rotarIzquierda, recortar*/
+//recortar*/
 
 void tonalidadAzul(t_pixel *pixel, unsigned char porcentaje);
 void escalaDeGrises(t_pixel *pixel);
