@@ -38,13 +38,16 @@ int solucion(int argc, char* argv[])
     char* tonAzul = "tonalidad-azul_";
     char* tonVerde = "tonalidad-verde_";
 
+    unsigned char porcAumCont, porcRedCont, porcTonAzul, porcTonVerde, porcTonRoja;
+
     leerArgumentos(argc, argv, &argNegativo, &argEscalaDeGrises,
                    &argAumentarContraste, &argReducirContraste,
                    &argTonalidadAzul, &argTonalidadVerde,&argTonalidadRoja,
                    &argRotarDerecha, &argRotarIzquierda,
                    &argComodin, &argConcatenarHorizontal, &argConcatenarVertical,
                    &argEspejarVertical, &argEspejarHorizontal,
-                   &nombreArchivo, &nombreArchivo2);
+                   &nombreArchivo, &nombreArchivo2,
+                   &porcAumCont, &porcRedCont, &porcTonAzul, &porcTonVerde, &porcTonRoja);
 
 
     void (*filtro)(t_pixel* pixel, unsigned char porcentaje);
@@ -73,7 +76,7 @@ int solucion(int argc, char* argv[])
     if(argAumentarContraste)
     {
         filtro = aumentarContraste;
-        int codAumentarContraste = funcionBasica(filtro, 25, &nombreArchivo, aumentarCont);
+        int codAumentarContraste = funcionBasica(filtro, porcAumCont, &nombreArchivo, aumentarCont);
         if(codAumentarContraste != TODO_OK)
         {
             printf("Error al generar archivo Aumentar Contraste");
@@ -83,7 +86,7 @@ int solucion(int argc, char* argv[])
     if(argReducirContraste)
     {
         filtro = reducirContraste;
-        int codReducirContraste = funcionBasica(filtro, 25, &nombreArchivo, reducirCont);
+        int codReducirContraste = funcionBasica(filtro, porcRedCont, &nombreArchivo, reducirCont);
         if(codReducirContraste != TODO_OK)
         {
             printf("Error al generar archivo Reducir Contraste");
@@ -93,7 +96,7 @@ int solucion(int argc, char* argv[])
     if(argTonalidadAzul)
     {
         filtro = tonalidadAzul;
-        int codTonalidadAzul = funcionBasica(filtro, 25, &nombreArchivo, tonAzul);
+        int codTonalidadAzul = funcionBasica(filtro, porcTonAzul, &nombreArchivo, tonAzul);
         if(codTonalidadAzul != TODO_OK)
         {
             printf("Error al generar archivo Tonalidad Azul");
@@ -103,7 +106,7 @@ int solucion(int argc, char* argv[])
     if(argTonalidadVerde)
     {
         filtro = tonalidadVerde;
-        int codTonalidadVerde = funcionBasica(filtro, 25, &nombreArchivo, tonVerde);
+        int codTonalidadVerde = funcionBasica(filtro, porcTonVerde, &nombreArchivo, tonVerde);
         if(codTonalidadVerde != TODO_OK)
         {
             printf("Error al generar archivo Tonalidad Verde");
@@ -113,7 +116,7 @@ int solucion(int argc, char* argv[])
     if(argTonalidadRoja)
     {
         filtro = tonalidadRoja;
-        int codTonalidadRoja = funcionBasica(filtro, 25, &nombreArchivo, tonRoja);
+        int codTonalidadRoja = funcionBasica(filtro, porcTonRoja, &nombreArchivo, tonRoja);
         if(codTonalidadRoja != TODO_OK)
         {
             printf("Error al generar archivo Tonalidad Roja");

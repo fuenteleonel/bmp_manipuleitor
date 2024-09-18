@@ -44,7 +44,9 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
                    bool* argRotarDerecha, bool* argRotarIzquierda,
                    bool* argComodin, bool* argConcatenarHorizontal, bool* argConcatenarVertical,
                    bool* argEspejarVertical, bool* argEspejarHorizontal,
-                   char** nombreArchivo, char** nombreArchivo2);
+                   char** nombreArchivo, char** nombreArchivo2,
+                   unsigned char* porcAumCont, unsigned char* porcRedCont, unsigned char* porcTonAzul,
+                   unsigned char* porcTonVerde, unsigned char* porcTonRoja);
 
 int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo,
                         char* nombreFiltro);

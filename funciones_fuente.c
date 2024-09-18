@@ -336,25 +336,23 @@ int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2)
 }
 
 void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDeGrises,
-                   bool* argAumentarContraste, bool* argReducirContraste,
-                   bool* argTonalidadAzul, bool* argTonalidadVerde, bool* argTonalidadRoja,
-                   bool* argRotarDerecha, bool* argRotarIzquierda,
-                   bool* argComodin, bool* argConcatenarHorizontal, bool* argConcatenarVertical,
-                   bool* argEspejarVertical, bool* argEspejarHorizontal,
-                   char** nombreArchivo, char** nombreArchivo2)
+                    bool* argAumentarContraste, bool* argReducirContraste,
+                    bool* argTonalidadAzul, bool* argTonalidadVerde, bool* argTonalidadRoja,
+                    bool* argRotarDerecha, bool* argRotarIzquierda,
+                    bool* argComodin, bool* argConcatenarHorizontal, bool* argConcatenarVertical,
+                    bool* argEspejarVertical, bool* argEspejarHorizontal,
+                    char** nombreArchivo, char** nombreArchivo2,
+                    unsigned char* porcAumCont, unsigned char* porcRedCont, unsigned char* porcTonAzul,
+                    unsigned char* porcTonVerde,unsigned char* porcTonRoja)
 {
-
-    bool banderas[14] = {false};
-    char* banderasArgs[] = {
-        "--negativo", "--escala-de-grises", "--aumentar-contraste", "--reducir-contraste",
-        "--tonalidad-azul", "--tonalidad-verde", "--tonalidad-roja", "--rotar-derecha",
-        "--rotar-izquierda", "--comodin", "--concatenar-horizontal", "--concatenar-vertical",
-        "--espejar-horizontal", "--espejar-vertical"};
 
     bool primerArchivo = false;
     bool segundoArchivo = false;
     bool argAyuda = false;
     int contArgs = 0;
+
+    char* posIgual;
+    int valor;
 
     for(int i=1; i<argc; i++)
     {
@@ -379,129 +377,237 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
             }
         }
 
-        bool banderaConocida = false;
-        for (int j = 0; j <= 13; j++) {
-            if (strcmp(argv[i], banderasArgs[j]) == 0) {
-                banderas[j] = true;
-                contArgs++;
-                banderaConocida = true;
-                break;
-            }
-        }
-
-        if (banderaConocida) continue;
-
-        if(strcmp(argv[i], "--ayuda") == 0)
+        if(strcmp(argv[i], "--negativo") == 0)
         {
-            puts("----Manipulador de Imagenes BMP---- \n"
-                 "Este programa crea nuevas imagenes a partir de una foto BMP original. "
-                 "Se debe enviar al menos 1 ruta de imagen BMP ejemplo 'hola.bmp' y alguna de las funciones detalladas a continuacion. "
-                 "Se creara una nueva imagen por cada comando invocado. \n"
-                 "Las posibles funciones para agregar son: \n"
-                 "--negativo : Se invierten los colores de la imagen original. \n"
-                 "--escala-de-grises : Unicamente con colores de la escala de grises. \n"
-                 "--aumentar-contraste : Se aumenta el contraste un porcentaje de 0 a 100. \n"
-                 "--reducir-contraste : Se reduce el contraste un porcentaje de 0 a 100. \n"
-                 "--tonalidad-azul : Aumenta en un porcentaje de 0 a 100 la intensidad del color Azul \n"
-                 "--tonalidad-verde : Aumenta en un porcentaje de 0 a 100 la intensidad del color Verde \n"
-                 "--tonalidad-roja : Aumenta en un porcentaje de 0 a 100 la intensidad del color Rojo \n"
-                 "--rotar-derecha : Gira la imagen 90 grados a la derecha \n"
-                 "--rotar-izquierda : Gira la imagen 90 grados a la izquierda \n"
-                 "--comodin : Sorpresa  \n"
-                 "--concatenar-horizontal : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una al lado de la otra \n"
-                 "--concatenar-vertical : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una arriba de la otra \n"
-                 "--espejar-horizontal : Invierte horizontalmente la imagen \n"
-                 "--espejar-horizontal : Invierte verticalmente la imagen\n"
-                );
+            *argNegativo = true;
             contArgs++;
-            argAyuda = true;
             continue;
         }
-        printf("Comando %s no existe \n", argv[i]);
-    }
-    if(primerArchivo == 0 && !argAyuda)
-    {
-        puts("No se detectó ningun archivo bmp en los argumentos. Ejecute el comando --ayuda para más detalles");
-    }
-    if(contArgs == 0)
-    {
-        puts("No se detectaron llamadas a funciones dentro de los argumentos. Ejecute el comando --ayuda para visualizar las funcionalidades diponibles");
-    }
-
-    *argNegativo = banderas[0];
-    *argEscalaDeGrises = banderas[1];
-    *argAumentarContraste = banderas[2];
-    *argReducirContraste = banderas[3];
-    *argTonalidadAzul = banderas[4];
-    *argTonalidadVerde = banderas[5];
-    *argTonalidadRoja = banderas[6];
-    *argRotarDerecha = banderas[7];
-    *argRotarIzquierda = banderas[8];
-    *argComodin = banderas[9];
-    *argConcatenarHorizontal = banderas[10];
-    *argConcatenarVertical = banderas[11];
-    *argEspejarHorizontal = banderas[12];
-    *argEspejarVertical = banderas[13];
-
-}
-
-int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo,
-                                 char* nombreFiltro)
-{
-    FILE *pf = fopen(*nombreArchivo, "rb");
-    t_header encabezado;
-    unsigned short tipoFichero;
-
-    if(!pf)
-    {
-        puts("Error al intentar abrir el archivo.");
-        return ARCH_NO_ENCONTRADO;
-    }
-
-    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
-
-    if(tipoFichero != TIPO_BMP)
-    {
-        fclose(pf);
-        return FORMATO_INCORRECTO;
-    }
-
-    fread(&encabezado,sizeof(t_header), 1, pf);
-    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
-
-    char nombre[255] = "VANGUARDIA_";
-    const char* filter = nombreFiltro;
-    strcat(nombre, filter);
-    const char* foto = *nombreArchivo;
-    strcat(nombre, foto);
-
-    FILE *pf2 = fopen(nombre, "wb");
-
-    if(!pf2)
-    {
-        puts("Error al intentar abrir el archivo.");
-        return ARCH_NO_ENCONTRADO;
-    }
-
-    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
-
-    fwrite(&encabezado,sizeof(t_header), 1, pf2);
-
-    fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
-
-    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho);
-
-    for(int i = 0; i < encabezado.alto; i++)
-        for(int j = 0; j < (encabezado.ancho); j++)
+        if(strcmp(argv[i], "--escala-de-grises") == 0)
         {
-            fread(&matImgOrig[i][j],sizeof(char),3,pf);
-            filtro(&matImgOrig[i][j], porcentaje);
-            fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
+            *argEscalaDeGrises = true;
+            contArgs++;
+            continue;
         }
-    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
-    fclose(pf);
-    fclose(pf2);
+        if(strncmp(argv[i], "--aumentar-contraste=", strlen("--aumentar-contraste=")) == 0)
+        {
+            posIgual = strchr(argv[i], '=');
+            valor = atoi(posIgual + 1);
 
-    return TODO_OK;
-}
+            *argAumentarContraste = true;
+            contArgs++;
+            *porcAumCont = valor;
+
+            if(valor < 0 || valor > 100)
+            {
+                *argAumentarContraste = false;
+                contArgs--;
+            }
+            continue;
+        }
+        if(strncmp(argv[i], "--reducir-contraste=", strlen("--reducir-contraste=")) == 0)
+        {
+            posIgual = strchr(argv[i], '=');
+            valor = atoi(posIgual + 1);
+
+            *argReducirContraste = true;
+            contArgs++;
+            *porcRedCont = valor;
+
+            if(valor < 0 || valor > 100)
+            {
+                *argReducirContraste = false;
+                contArgs--;
+            }
+            continue;
+        }
+        if(strncmp(argv[i], "--tonalidad-azul=", strlen("--tonalidad-azul=")) == 0)
+        {
+            posIgual = strchr(argv[i], '=');
+            valor = atoi(posIgual + 1);
+
+            *argTonalidadAzul = true;
+            contArgs++;
+            *porcTonAzul = valor;
+
+            if(valor < 0 || valor > 100)
+            {
+                *argTonalidadAzul = false;
+                contArgs--;
+            }
+            continue;
+        }
+        if(strncmp(argv[i], "--tonalidad-verde=", strlen("--tonalidad-verde=")) == 0)
+        {
+            posIgual = strchr(argv[i], '=');
+            valor = atoi(posIgual + 1);
+
+            *argTonalidadVerde = true;
+            contArgs++;
+            *porcTonVerde = valor;
+
+            if(valor < 0 || valor > 100)
+            {
+                *argTonalidadVerde = false;
+                contArgs--;
+            }
+            continue;
+        }
+        if(strncmp(argv[i], "--tonalidad-roja=", strlen("--tonalidad-roja=")) == 0)
+        {
+            posIgual = strchr(argv[i], '=');
+            valor = atoi(posIgual + 1);
+
+            *argTonalidadRoja = true;
+            contArgs++;
+            *porcTonRoja = valor;
+
+            if(valor < 0 || valor > 100)
+            {
+                *argTonalidadRoja = false;
+                contArgs--;
+            }
+            continue;
+        }
+        if(strcmp(argv[i], "--rotar-derecha") == 0)
+        {
+            *argRotarDerecha = true;
+            contArgs++;
+            continue;
+        }
+        if(strcmp(argv[i], "--rotar-izquierda") == 0)
+        {
+            *argRotarIzquierda = true;
+            contArgs++;
+            continue;
+        }
+        if(strcmp(argv[i], "--comodin") == 0)
+        {
+            *argComodin = true;
+            contArgs++;
+            continue;
+        }
+        if(strcmp(argv[i], "--concatenar-vertical") == 0)
+        {
+            *argConcatenarVertical = true;
+            contArgs++;
+            continue;
+        }
+        if(strcmp(argv[i], "--concatenar-horizontal") == 0)
+        {
+            *argConcatenarHorizontal = true;
+            contArgs++;
+            continue;
+        }
+        if(strcmp(argv[i], "--espejar-vertical") == 0)
+        {
+            *argEspejarVertical = true;
+            contArgs++;
+            continue;
+        }
+        if(strcmp(argv[i], "--espejar-horizontal") == 0)
+        {
+            *argEspejarHorizontal = true;
+            contArgs++;
+            continue;
+        }
+            if(strcmp(argv[i], "--ayuda") == 0)
+            {
+                puts("----Manipulador de Imagenes BMP---- \n"
+                     "Este programa crea nuevas imagenes a partir de una foto BMP original. "
+                     "Se debe enviar al menos 1 ruta de imagen BMP ejemplo 'hola.bmp' y alguna de las funciones detalladas a continuacion. "
+                     "Se creara una nueva imagen por cada comando invocado. \n"
+                     "Las posibles funciones para agregar son: \n"
+                     "--negativo : Se invierten los colores de la imagen original. \n"
+                     "--escala-de-grises : Unicamente con colores de la escala de grises. \n"
+                     "--aumentar-contraste : Se aumenta el contraste un porcentaje de 0 a 100. \n"
+                     "--reducir-contraste : Se reduce el contraste un porcentaje de 0 a 100. \n"
+                     "--tonalidad-azul : Aumenta en un porcentaje de 0 a 100 la intensidad del color Azul \n"
+                     "--tonalidad-verde : Aumenta en un porcentaje de 0 a 100 la intensidad del color Verde \n"
+                     "--tonalidad-roja : Aumenta en un porcentaje de 0 a 100 la intensidad del color Rojo \n"
+                     "--rotar-derecha : Gira la imagen 90 grados a la derecha \n"
+                     "--rotar-izquierda : Gira la imagen 90 grados a la izquierda \n"
+                     "--comodin : Sorpresa  \n"
+                     "--concatenar-horizontal : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una al lado de la otra \n"
+                     "--concatenar-vertical : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una arriba de la otra \n"
+                     "--espejar-horizontal : Invierte horizontalmente la imagen \n"
+                     "--espejar-horizontal : Invierte verticalmente la imagen\n"
+                    );
+                contArgs++;
+                argAyuda = true;
+                continue;
+            }
+            printf("Comando %s no existe \n", argv[i]);
+        }
+        if(primerArchivo == 0 && !argAyuda)
+        {
+            puts("No se detectó ningun archivo bmp en los argumentos. Ejecute el comando --ayuda para más detalles");
+        }
+        if(contArgs == 0)
+        {
+            puts("No se detectaron llamadas a funciones dentro de los argumentos. Ejecute el comando --ayuda para visualizar las funcionalidades diponibles");
+        }
+
+
+    }
+
+    int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo,
+                      char* nombreFiltro)
+    {
+        FILE *pf = fopen(*nombreArchivo, "rb");
+        t_header encabezado;
+        unsigned short tipoFichero;
+
+        if(!pf)
+        {
+            puts("Error al intentar abrir el archivo.");
+            return ARCH_NO_ENCONTRADO;
+        }
+
+        fread(&tipoFichero, sizeof(unsigned short), 1, pf);
+
+        if(tipoFichero != TIPO_BMP)
+        {
+            fclose(pf);
+            return FORMATO_INCORRECTO;
+        }
+
+        fread(&encabezado,sizeof(t_header), 1, pf);
+        fseek(pf, encabezado.comienzoImagen, SEEK_SET);
+
+        char nombre[255] = "VANGUARDIA_";
+        const char* filter = nombreFiltro;
+        strcat(nombre, filter);
+        const char* foto = *nombreArchivo;
+        strcat(nombre, foto);
+
+        FILE *pf2 = fopen(nombre, "wb");
+
+        if(!pf2)
+        {
+            puts("Error al intentar abrir el archivo.");
+            return ARCH_NO_ENCONTRADO;
+        }
+
+        fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
+
+        fwrite(&encabezado,sizeof(t_header), 1, pf2);
+
+        fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
+
+        t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho);
+
+        for(int i = 0; i < encabezado.alto; i++)
+            for(int j = 0; j < (encabezado.ancho); j++)
+            {
+                fread(&matImgOrig[i][j],sizeof(char),3,pf);
+                filtro(&matImgOrig[i][j], porcentaje);
+                fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
+            }
+        matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
+        fclose(pf);
+        fclose(pf2);
+
+        return TODO_OK;
+    }
 

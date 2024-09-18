@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="unlam.bmp --negativo unlam2.bmp --escala-de-grises --aumentar-contraste --reducir-contraste --concatenar-vertical --concatenar-horizontal --espejar-vertical --espejar-horizontal --rotar-izquierda --rotar-derecha --tonalidad-roja --tonalidad-azul --tonalidad-verde" />
+				<Option parameters="unlam.bmp --negativo unlam2.bmp --escala-de-grises --aumentar-contraste=75 --reducir-contraste=75 --concatenar-vertical --concatenar-horizontal --espejar-vertical --espejar-horizontal --rotar-izquierda --rotar-derecha --tonalidad-roja=75 --tonalidad-azul=75 --tonalidad-verde=101" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
