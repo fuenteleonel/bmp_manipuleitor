@@ -44,13 +44,9 @@ void aumentarPorcentaje(unsigned char *color, float porcentaje, unsigned char li
     int aux = *color;
     aux += aux * porcentaje / 100;
     if(aux > limite)
-    {
         *color = limite;
-    }
     else
-    {
         *color = aux;
-    }
 }
 
 void disminuirPorcentaje(unsigned char *color, float porcentaje, unsigned char limite)
@@ -58,13 +54,9 @@ void disminuirPorcentaje(unsigned char *color, float porcentaje, unsigned char l
     int aux = *color;
     aux -= aux * porcentaje / 100;
     if(aux < limite)
-    {
         *color = limite;
-    }
     else
-    {
         *color = aux;
-    }
 }
 
 void aumentarContraste(t_pixel *pixel, unsigned char porcentaje)
@@ -76,7 +68,6 @@ void aumentarContraste(t_pixel *pixel, unsigned char porcentaje)
         aumentarPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
         aumentarPorcentaje(&pixel->color[RED], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
         aumentarPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
-
     }
     else
     {
@@ -84,7 +75,6 @@ void aumentarContraste(t_pixel *pixel, unsigned char porcentaje)
         disminuirPorcentaje(&pixel->color[RED], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
         disminuirPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
     }
-
 }
 
 void tonalidadRoja(t_pixel *pixel, unsigned char porcentaje)
@@ -92,73 +82,10 @@ void tonalidadRoja(t_pixel *pixel, unsigned char porcentaje)
     aumentarPorcentaje(&pixel->color[RED], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
     disminuirPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
     disminuirPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
-
 }
-
-//int achicar()
-//{
-//    FILE *pf = fopen("unlam.bmp", "rb");
-//    t_header encabezado, encabezadoNuevo;
-//    unsigned short tipoFichero;
-//
-//    if(!pf)
-//    {
-//        puts("Error al intentar abrir el archivo.");
-//        return ARCH_NO_ENCONTRADO;
-//    }
-//
-//    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
-//
-//    if(tipoFichero != TIPO_BMP)
-//    {
-//        fclose(pf);
-//        return FORMATO_INCORRECTO;
-//    }
-//
-//    fread(&encabezado,sizeof(t_header), 1, pf);
-//    encabezadoNuevo = encabezado;
-//    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
-//
-//    FILE *pf2 = fopen("VANGUARDIA_achicar_unlam.bmp", "wb");
-//
-//    if(!pf2)
-//    {
-//        puts("Error al intentar abrir el archivo.");
-//        fclose(pf);
-//        return ARCH_NO_ENCONTRADO;
-//    }
-//
-//    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
-//
-//    encabezadoNuevo.alto /= 2;
-//    encabezadoNuevo.ancho /= 2 ;
-//    encabezadoNuevo.tamImagen = encabezadoNuevo.alto * encabezadoNuevo.ancho * 3;
-//    encabezadoNuevo.tamArchivo = encabezadoNuevo.tamImagen + TAM_HEADER;
-//
-//    fwrite(&encabezadoNuevo,sizeof(t_header), 1, pf2);
-//
-//    fseek(pf2, encabezadoNuevo.comienzoImagen, SEEK_SET);
-//
-//    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
-//
-//    for(int i = 0; i < encabezado.alto; i++)
-//        for(int j = 0; j < encabezado.ancho; j++)
-//            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
-//
-//    for(int i = 0; i < encabezado.alto; i+=2)
-//        for(int j = 0; j < encabezado.ancho; j+=2)
-//            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
-//
-//    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
-//    fclose(pf);
-//    fclose(pf2);
-//
-//    return TODO_OK;
-//}
 
 int espejarVertical(char** nombreArchivo)
 {
-
     FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado;
     unsigned short tipoFichero;
@@ -206,14 +133,12 @@ int espejarVertical(char** nombreArchivo)
     {
         for(int j = 0; j < encabezado.ancho; j++)
             fread(&matEspejadaV[i][j], sizeof(t_pixel), 1, pf);
-
         fseek(pf, padding, SEEK_CUR);
     }
     for(int i = 0; i < encabezado.alto; i++)
     {
         for(int j = 0; j < encabezado.ancho; j++)
             fwrite(&matEspejadaV[i][j], sizeof(t_pixel), 1, pf2);
-
         paddingLinea(pf2, padding);
     }
 
@@ -232,7 +157,7 @@ int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2)
 
     if(!pf)
     {
-        puts("Error al intentar abrir el archivo.");
+        puts("\nError al intentar abrir el archivo.");
         return ARCH_NO_ENCONTRADO;
     }
 
@@ -250,7 +175,7 @@ int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2)
 
     if(!pf2)
     {
-        puts("Error al intentar abrir el archivo.");
+        puts("\nError al intentar abrir el segundo archivo.");
         fclose(pf);
         return ARCH_NO_ENCONTRADO;
     }
@@ -319,27 +244,21 @@ int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2)
     for (int i = 0; i < encabezadoNuevo.alto; i++)
     {
         if (i < encabezado.alto)
-        {
             fwrite(matImgOrig[i], sizeof(t_pixel), encabezado.ancho, pf3);
-        }
         else
-        {
             for(int j = 0; j < encabezado.ancho; j++)
                 fwrite(&color, sizeof(t_pixel), 1, pf3);
-        }
+
         if (i < encabezado2.alto)
             fwrite(matImgOrig2[i], sizeof(t_pixel), encabezado2.ancho, pf3);
         else
-        {
             for(int j = 0; j < encabezado2.ancho; j++)
                 fwrite(&color, sizeof(t_pixel), 1, pf3);
-        }
         paddingLinea(pf3, paddingNuevo);
     }
 
 
     matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
-
     matrizDestruir((void**)matImgOrig2, (size_t)encabezado2.alto);
 
     fclose(pf);
@@ -359,7 +278,6 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
                     unsigned char* porcAumCont, unsigned char* porcRedCont, unsigned char* porcTonAzul,
                     unsigned char* porcTonVerde,unsigned char* porcTonRoja)
 {
-
     bool primerArchivo = false;
     bool segundoArchivo = false;
     bool argAyuda = false;
@@ -386,11 +304,8 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
                 continue;
             }
             else
-            {
                 printf("Se detectaron más de dos archivos, ten en cuenta que solo se utilizarán los primeros dos. \n");
-            }
         }
-
         if(strcmp(argv[i], "--negativo") == 0)
         {
             *argNegativo = true;
@@ -408,15 +323,15 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
             posIgual = strchr(argv[i], '=');
             valor = atoi(posIgual + 1);
 
-            *argAumentarContraste = true;
-            contArgs++;
-            *porcAumCont = valor;
-
-            if(valor < 0 || valor > 100)
+            if(valor >-1  && valor < 101)
             {
-                *argAumentarContraste = false;
-                contArgs--;
+                *argAumentarContraste = true;
+                contArgs++;
+                *porcAumCont = valor;
             }
+            else
+                printf("Comando %s se encuentra fuera de rango. Ejecute el comando --ayuda para mas informacion \n", argv[i]);
+
             continue;
         }
         if(strncmp(argv[i], "--reducir-contraste=", strlen("--reducir-contraste=")) == 0)
@@ -424,15 +339,14 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
             posIgual = strchr(argv[i], '=');
             valor = atoi(posIgual + 1);
 
-            *argReducirContraste = true;
-            contArgs++;
-            *porcRedCont = valor;
-
-            if(valor < 0 || valor > 100)
+            if(valor >-1  && valor < 101)
             {
-                *argReducirContraste = false;
-                contArgs--;
+                *argReducirContraste = true;
+                contArgs++;
+                *porcRedCont = valor;
             }
+            else
+                printf("Comando %s se encuentra fuera de rango. Ejecute el comando --ayuda para mas informacion \n", argv[i]);
             continue;
         }
         if(strncmp(argv[i], "--tonalidad-azul=", strlen("--tonalidad-azul=")) == 0)
@@ -440,15 +354,14 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
             posIgual = strchr(argv[i], '=');
             valor = atoi(posIgual + 1);
 
-            *argTonalidadAzul = true;
-            contArgs++;
-            *porcTonAzul = valor;
-
-            if(valor < 0 || valor > 100)
+            if(valor >-1  && valor < 101)
             {
-                *argTonalidadAzul = false;
-                contArgs--;
+                *argTonalidadAzul = true;
+                contArgs++;
+                *porcTonAzul = valor;
             }
+            else
+                printf("Comando %s se encuentra fuera de rango. Ejecute el comando --ayuda para mas informacion \n", argv[i]);
             continue;
         }
         if(strncmp(argv[i], "--tonalidad-verde=", strlen("--tonalidad-verde=")) == 0)
@@ -456,15 +369,14 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
             posIgual = strchr(argv[i], '=');
             valor = atoi(posIgual + 1);
 
-            *argTonalidadVerde = true;
-            contArgs++;
-            *porcTonVerde = valor;
-
-            if(valor < 0 || valor > 100)
+            if(valor >-1  && valor < 101)
             {
-                *argTonalidadVerde = false;
-                contArgs--;
+                *argTonalidadVerde = true;
+                contArgs++;
+                *porcTonVerde = valor;
             }
+            else
+                printf("Comando %s se encuentra fuera de rango. Ejecute el comando --ayuda para mas informacion \n", argv[i]);
             continue;
         }
         if(strncmp(argv[i], "--tonalidad-roja=", strlen("--tonalidad-roja=")) == 0)
@@ -472,15 +384,14 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
             posIgual = strchr(argv[i], '=');
             valor = atoi(posIgual + 1);
 
-            *argTonalidadRoja = true;
-            contArgs++;
-            *porcTonRoja = valor;
-
-            if(valor < 0 || valor > 100)
+            if(valor >-1  && valor < 101)
             {
-                *argTonalidadRoja = false;
-                contArgs--;
+                *argTonalidadRoja = true;
+                contArgs++;
+                *porcTonRoja = valor;
             }
+            else
+                printf("Comando %s se encuentra fuera de rango. Ejecute el comando --ayuda para mas informacion \n", argv[i]);
             continue;
         }
         if(strcmp(argv[i], "--rotar-derecha") == 0)
@@ -503,14 +414,24 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
         }
         if(strcmp(argv[i], "--concatenar-vertical") == 0)
         {
-            *argConcatenarVertical = true;
-            contArgs++;
+            if(segundoArchivo != 0)
+            {
+                *argConcatenarVertical = true;
+                contArgs++;
+            }
+            else
+                puts("No se detecto un segundo archivo bmp en los argumentos. No se puede ejecutar concatenar vertical. Ejecute el comando --ayuda para mas detalles");
             continue;
         }
         if(strcmp(argv[i], "--concatenar-horizontal") == 0)
         {
-            *argConcatenarHorizontal = true;
-            contArgs++;
+            if(segundoArchivo != 0)
+            {
+                *argConcatenarHorizontal = true;
+                contArgs++;
+            }
+            else
+                puts("No se detecto un segundo archivo bmp en los argumentos. No se puede ejecutar concatenar horizontal. Ejecute el comando --ayuda para mas detalles");
             continue;
         }
         if(strcmp(argv[i], "--espejar-vertical") == 0)
@@ -541,27 +462,22 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
                  "--tonalidad-roja : Aumenta en un porcentaje de 0 a 100 la intensidad del color Rojo \n"
                  "--rotar-derecha : Gira la imagen 90 grados a la derecha \n"
                  "--rotar-izquierda : Gira la imagen 90 grados a la izquierda \n"
-                 "--comodin : Sorpresa  \n"
+                 "--comodin : Sorpresa \n"
                  "--concatenar-horizontal : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una al lado de la otra \n"
                  "--concatenar-vertical : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una arriba de la otra \n"
                  "--espejar-horizontal : Invierte horizontalmente la imagen \n"
-                 "--espejar-horizontal : Invierte verticalmente la imagen\n"
+                 "--espejar-vertital : Invierte verticalmente la imagen\n"
                 );
             contArgs++;
             argAyuda = true;
             continue;
         }
-        printf("Comando %s no existe \n", argv[i]);
+        printf("Comando %s no existe. Ejecute el comando --ayuda para mas informacion \n", argv[i]);
     }
     if(primerArchivo == 0 && !argAyuda)
-    {
         puts("No se detectó ningun archivo bmp en los argumentos. Ejecute el comando --ayuda para más detalles");
-    }
     if(contArgs == 0)
-    {
         puts("No se detectaron llamadas a funciones dentro de los argumentos. Ejecute el comando --ayuda para visualizar las funcionalidades diponibles");
-    }
-
 
 }
 

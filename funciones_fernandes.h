@@ -9,5 +9,4 @@ int espejarHorizontal(char** nombreArchivo);
 int concatenarVertical(char** nombreArchivo, char** nombreArchivo2);
 int rotarDerecha(char** nombreArchivo);
 
-
 #endif // FUNCIONES_FERNANDES_H_INCLUDED

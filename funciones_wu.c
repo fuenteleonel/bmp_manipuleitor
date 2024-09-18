@@ -5,7 +5,6 @@ void tonalidadAzul(t_pixel *pixel, unsigned char porcentaje)
     aumentarPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MAX_COLOR_24_BITS_PROF);
     disminuirPorcentaje(&pixel->color[RED], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
     disminuirPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MIN_COLOR_24_BITS_PROF);
-
 }
 
 void escalaDeGrises(t_pixel *pixel, unsigned char porcentaje)
@@ -26,7 +25,6 @@ void negativo(t_pixel *pixel, unsigned char porcentaje)
 
 int rotarIzquierda(char** nombreArchivo)
 {
-
     FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado, encabezadoNuevo;
     unsigned short tipoFichero;
@@ -51,7 +49,6 @@ int rotarIzquierda(char** nombreArchivo)
     char nombre[255] = "VANGUARDIA_rotar-izquierda_";
     const char* foto = *nombreArchivo;
     strcat(nombre, foto);
-
 
     FILE *pf2 = fopen(nombre, "wb");
 
@@ -82,7 +79,6 @@ int rotarIzquierda(char** nombreArchivo)
 
         for(int j = 0; j < encabezado.ancho; j++)
             fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
-
         fseek(pf, padding, SEEK_CUR);
     }
     for(int i = 0; i < encabezadoNuevo.alto; i++)
@@ -101,7 +97,6 @@ int rotarIzquierda(char** nombreArchivo)
 
 void comodin(t_pixel *pixel, unsigned char porcentaje)
 {
-
     unsigned char promedio = (pixel->color[BLUE] + pixel->color[RED] + pixel->color[GREEN])/3;
     if (promedio < 43)
     {
