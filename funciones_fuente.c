@@ -95,71 +95,71 @@ void tonalidadRoja(t_pixel *pixel, unsigned char porcentaje)
 
 }
 
-int achicar()
+//int achicar()
+//{
+//    FILE *pf = fopen("unlam.bmp", "rb");
+//    t_header encabezado, encabezadoNuevo;
+//    unsigned short tipoFichero;
+//
+//    if(!pf)
+//    {
+//        puts("Error al intentar abrir el archivo.");
+//        return ARCH_NO_ENCONTRADO;
+//    }
+//
+//    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
+//
+//    if(tipoFichero != TIPO_BMP)
+//    {
+//        fclose(pf);
+//        return FORMATO_INCORRECTO;
+//    }
+//
+//    fread(&encabezado,sizeof(t_header), 1, pf);
+//    encabezadoNuevo = encabezado;
+//    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
+//
+//    FILE *pf2 = fopen("VANGUARDIA_achicar_unlam.bmp", "wb");
+//
+//    if(!pf2)
+//    {
+//        puts("Error al intentar abrir el archivo.");
+//        fclose(pf);
+//        return ARCH_NO_ENCONTRADO;
+//    }
+//
+//    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
+//
+//    encabezadoNuevo.alto /= 2;
+//    encabezadoNuevo.ancho /= 2 ;
+//    encabezadoNuevo.tamImagen = encabezadoNuevo.alto * encabezadoNuevo.ancho * 3;
+//    encabezadoNuevo.tamArchivo = encabezadoNuevo.tamImagen + TAM_HEADER;
+//
+//    fwrite(&encabezadoNuevo,sizeof(t_header), 1, pf2);
+//
+//    fseek(pf2, encabezadoNuevo.comienzoImagen, SEEK_SET);
+//
+//    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
+//
+//    for(int i = 0; i < encabezado.alto; i++)
+//        for(int j = 0; j < encabezado.ancho; j++)
+//            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+//
+//    for(int i = 0; i < encabezado.alto; i+=2)
+//        for(int j = 0; j < encabezado.ancho; j+=2)
+//            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
+//
+//    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
+//    fclose(pf);
+//    fclose(pf2);
+//
+//    return TODO_OK;
+//}
+
+int espejarVertical(char** nombreArchivo)
 {
-    FILE *pf = fopen("unlam.bmp", "rb");
-    t_header encabezado, encabezadoNuevo;
-    unsigned short tipoFichero;
 
-    if(!pf)
-    {
-        puts("Error al intentar abrir el archivo.");
-        return ARCH_NO_ENCONTRADO;
-    }
-
-    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
-
-    if(tipoFichero != TIPO_BMP)
-    {
-        fclose(pf);
-        return FORMATO_INCORRECTO;
-    }
-
-    fread(&encabezado,sizeof(t_header), 1, pf);
-    encabezadoNuevo = encabezado;
-    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
-
-    FILE *pf2 = fopen("VANGUARDIA_achicar_unlam.bmp", "wb");
-
-    if(!pf2)
-    {
-        puts("Error al intentar abrir el archivo.");
-        fclose(pf);
-        return ARCH_NO_ENCONTRADO;
-    }
-
-    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
-
-    encabezadoNuevo.alto /= 2;
-    encabezadoNuevo.ancho /= 2 ;
-    encabezadoNuevo.tamImagen = encabezadoNuevo.alto * encabezadoNuevo.ancho * 3;
-    encabezadoNuevo.tamArchivo = encabezadoNuevo.tamImagen + TAM_HEADER;
-
-    fwrite(&encabezadoNuevo,sizeof(t_header), 1, pf2);
-
-    fseek(pf2, encabezadoNuevo.comienzoImagen, SEEK_SET);
-
-    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
-
-    for(int i = 0; i < encabezado.alto; i++)
-        for(int j = 0; j < encabezado.ancho; j++)
-            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
-
-    for(int i = 0; i < encabezado.alto; i+=2)
-        for(int j = 0; j < encabezado.ancho; j+=2)
-            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
-
-    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
-    fclose(pf);
-    fclose(pf2);
-
-    return TODO_OK;
-}
-
-int espejarVertical()
-{
-
-    FILE *pf = fopen("unlam.bmp", "rb");
+    FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado;
     unsigned short tipoFichero;
 
@@ -180,7 +180,11 @@ int espejarVertical()
     fread(&encabezado,sizeof(t_header), 1, pf);
     fseek(pf, encabezado.comienzoImagen, SEEK_SET);
 
-    FILE *pf2 = fopen("VANGUARDIA_espejar-vertical_unlam.bmp", "wb");
+    char nombre[255] = "VANGUARDIA_espejar-vertical_";
+    const char* foto = *nombreArchivo;
+    strcat(nombre, foto);
+
+    FILE *pf2 = fopen(nombre, "wb");
 
     if(!pf2)
     {
@@ -210,9 +214,9 @@ int espejarVertical()
     return TODO_OK;
 }
 
-int concatenarHorizontal()
+int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2)
 {
-    FILE *pf = fopen("unlam.bmp", "rb");
+    FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado, encabezado2, encabezadoNuevo;
     unsigned short tipoFichero;
 
@@ -232,7 +236,7 @@ int concatenarHorizontal()
 
     fread(&encabezado,sizeof(t_header), 1, pf);
 
-    FILE *pf2 = fopen("unlam2.bmp", "rb");
+    FILE *pf2 = fopen(*nombreArchivo2, "rb");
 
     if(!pf2)
     {
@@ -252,7 +256,11 @@ int concatenarHorizontal()
 
     fread(&encabezado2,sizeof(t_header), 1, pf2);
 
-    FILE *pf3 = fopen("VANGUARDIA_concatenar-horizontal_unlam.bmp", "wb");
+    char nombre[255] = "VANGUARDIA_concatenar-horizontal_";
+    const char* foto = *nombreArchivo;
+    strcat(nombre, foto);
+
+    FILE *pf3 = fopen(nombre, "wb");
     if(!pf3)
     {
         puts("Error al crear archivo.");
@@ -336,6 +344,13 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
                    char** nombreArchivo, char** nombreArchivo2)
 {
 
+    bool banderas[14] = {false};
+    char* banderasArgs[] = {
+        "--negativo", "--escala-de-grises", "--aumentar-contraste", "--reducir-contraste",
+        "--tonalidad-azul", "--tonalidad-verde", "--tonalidad-roja", "--rotar-derecha",
+        "--rotar-izquierda", "--comodin", "--concatenar-horizontal", "--concatenar-vertical",
+        "--espejar-horizontal", "--espejar-vertical"};
+
     bool primerArchivo = false;
     bool segundoArchivo = false;
     bool argAyuda = false;
@@ -364,90 +379,18 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
             }
         }
 
-        if(strcmp(argv[i], "--negativo") == 0)
-        {
-            *argNegativo = true;
-            contArgs++;
-            continue;
+        bool banderaConocida = false;
+        for (int j = 0; j <= 13; j++) {
+            if (strcmp(argv[i], banderasArgs[j]) == 0) {
+                banderas[j] = true;
+                contArgs++;
+                banderaConocida = true;
+                break;
+            }
         }
-        if(strcmp(argv[i], "--escala-de-grises") == 0)
-        {
-            *argEscalaDeGrises = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--aumentar-contraste") == 0)
-        {
-            *argAumentarContraste = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--reducir-contraste") == 0)
-        {
-            *argReducirContraste = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--tonalidad-azul") == 0)
-        {
-            *argTonalidadAzul = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--tonalidad-verde") == 0)
-        {
-            *argTonalidadVerde = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--tonalidad-roja") == 0)
-        {
-            *argTonalidadRoja = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--rotar-derecha") == 0)
-        {
-            *argRotarDerecha = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--rotar-izquierda") == 0)
-        {
-            *argRotarIzquierda = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--comodin") == 0)
-        {
-            *argComodin = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--concatenar-horizontal") == 0)
-        {
-            *argConcatenarHorizontal = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--concatenar-vertical") == 0)
-        {
-            *argConcatenarVertical = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--espejar-horizontal") == 0)
-        {
-            *argEspejarHorizontal = true;
-            contArgs++;
-            continue;
-        }
-        if(strcmp(argv[i], "--espejar-vertical") == 0)
-        {
-            *argEspejarVertical = true;
-            contArgs++;
-            continue;
-        }
+
+        if (banderaConocida) continue;
+
         if(strcmp(argv[i], "--ayuda") == 0)
         {
             puts("----Manipulador de Imagenes BMP---- \n"
@@ -485,4 +428,80 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
         puts("No se detectaron llamadas a funciones dentro de los argumentos. Ejecute el comando --ayuda para visualizar las funcionalidades diponibles");
     }
 
+    *argNegativo = banderas[0];
+    *argEscalaDeGrises = banderas[1];
+    *argAumentarContraste = banderas[2];
+    *argReducirContraste = banderas[3];
+    *argTonalidadAzul = banderas[4];
+    *argTonalidadVerde = banderas[5];
+    *argTonalidadRoja = banderas[6];
+    *argRotarDerecha = banderas[7];
+    *argRotarIzquierda = banderas[8];
+    *argComodin = banderas[9];
+    *argConcatenarHorizontal = banderas[10];
+    *argConcatenarVertical = banderas[11];
+    *argEspejarHorizontal = banderas[12];
+    *argEspejarVertical = banderas[13];
+
 }
+
+int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo,
+                                 char* nombreFiltro)
+{
+    FILE *pf = fopen(*nombreArchivo, "rb");
+    t_header encabezado;
+    unsigned short tipoFichero;
+
+    if(!pf)
+    {
+        puts("Error al intentar abrir el archivo.");
+        return ARCH_NO_ENCONTRADO;
+    }
+
+    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
+
+    if(tipoFichero != TIPO_BMP)
+    {
+        fclose(pf);
+        return FORMATO_INCORRECTO;
+    }
+
+    fread(&encabezado,sizeof(t_header), 1, pf);
+    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
+
+    char nombre[255] = "VANGUARDIA_";
+    const char* filter = nombreFiltro;
+    strcat(nombre, filter);
+    const char* foto = *nombreArchivo;
+    strcat(nombre, foto);
+
+    FILE *pf2 = fopen(nombre, "wb");
+
+    if(!pf2)
+    {
+        puts("Error al intentar abrir el archivo.");
+        return ARCH_NO_ENCONTRADO;
+    }
+
+    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
+
+    fwrite(&encabezado,sizeof(t_header), 1, pf2);
+
+    fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
+
+    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho);
+
+    for(int i = 0; i < encabezado.alto; i++)
+        for(int j = 0; j < (encabezado.ancho); j++)
+        {
+            fread(&matImgOrig[i][j],sizeof(char),3,pf);
+            filtro(&matImgOrig[i][j], porcentaje);
+            fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
+        }
+    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
+    fclose(pf);
+    fclose(pf2);
+
+    return TODO_OK;
+}
+

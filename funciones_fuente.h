@@ -36,8 +36,8 @@ void disminuirPorcentaje(unsigned char *color, float porcentaje, unsigned char l
 void aumentarContraste(t_pixel *pixel, unsigned char porcentaje);
 void tonalidadRoja(t_pixel *pixel, unsigned char porcentaje);
 int achicar();
-int espejarVertical();
-int concatenarHorizontal();
+int espejarVertical(char** nombreArchivo);
+int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2);
 void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDeGrises,
                    bool* argAumentarContraste, bool* argReducirContraste,
                    bool* argTonalidadAzul, bool* argTonalidadVerde, bool* argTonalidadRoja,
@@ -45,5 +45,8 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
                    bool* argComodin, bool* argConcatenarHorizontal, bool* argConcatenarVertical,
                    bool* argEspejarVertical, bool* argEspejarHorizontal,
                    char** nombreArchivo, char** nombreArchivo2);
+
+int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo,
+                        char* nombreFiltro);
 
 #endif // FUNCIONES_FUENTE_H_INCLUDED

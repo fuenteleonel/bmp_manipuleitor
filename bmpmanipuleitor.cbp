@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="C:\Users\Leo\Desktop\Top.Prog\TP\bmp_manipuleitor\unlam.bmp unlam2.bmp --concatenar-horizontal --concatenar-vertical --espejar-horizontal --espejar-vertical --rotar-izquierda --rotar-derecha" />
+				<Option parameters="unlam.bmp --negativo unlam2.bmp --escala-de-grises --aumentar-contraste --reducir-contraste --concatenar-vertical --concatenar-horizontal --espejar-vertical --espejar-horizontal --rotar-izquierda --rotar-derecha --tonalidad-roja --tonalidad-azul --tonalidad-verde" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>

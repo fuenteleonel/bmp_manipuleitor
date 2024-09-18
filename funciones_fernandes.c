@@ -28,10 +28,10 @@ void tonalidadVerde(t_pixel *pixel, unsigned char porcentaje)
 
 }
 
-int espejarHorizontal()
+int espejarHorizontal(char** nombreArchivo)
 {
 
-    FILE *pf = fopen("unlam.bmp", "rb");
+    FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado;
     unsigned short tipoFichero;
 
@@ -52,7 +52,11 @@ int espejarHorizontal()
     fread(&encabezado,sizeof(t_header), 1, pf);
     fseek(pf, encabezado.comienzoImagen, SEEK_SET);
 
-    FILE *pf2 = fopen("VANGUARDIA_espejar-horizontal_unlam.bmp", "wb");
+    char nombre[255] = "VANGUARDIA_espejar-horizontal_";
+    const char* foto = *nombreArchivo;
+    strcat(nombre, foto);
+
+    FILE *pf2 = fopen(nombre, "wb");
 
     if(!pf2)
     {
@@ -82,9 +86,9 @@ int espejarHorizontal()
     return TODO_OK;
 }
 
-int concatenarVertical()
+int concatenarVertical(char** nombreArchivo, char** nombreArchivo2)
 {
-        FILE *pf = fopen("unlam.bmp", "rb");
+        FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado, encabezado2, encabezadoNuevo;
     unsigned short tipoFichero;
 
@@ -104,7 +108,7 @@ int concatenarVertical()
 
     fread(&encabezado,sizeof(t_header), 1, pf);
 
-    FILE *pf2 = fopen("unlam2.bmp", "rb");
+    FILE *pf2 = fopen(*nombreArchivo2, "rb");
 
     if(!pf2)
     {
@@ -124,7 +128,11 @@ int concatenarVertical()
 
     fread(&encabezado2,sizeof(t_header), 1, pf2);
 
-    FILE *pf3 = fopen("VANGUARDIA_concatenar-vertical_unlam.bmp", "wb");
+    char nombre[255] = "VANGUARDIA_concatenar-vertical_";
+    const char* foto = *nombreArchivo;
+    strcat(nombre, foto);
+
+    FILE *pf3 = fopen(nombre, "wb");
     if(!pf3)
     {
         puts("Error al crear archivo.");
@@ -188,9 +196,9 @@ int concatenarVertical()
     return TODO_OK;
 }
 
-int rotarDerecha()
+int rotarDerecha(char** nombreArchivo)
 {
-    FILE *pf = fopen("unlam.bmp", "rb");
+    FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado, encabezadoNuevo;
     unsigned short tipoFichero;
 
@@ -211,7 +219,12 @@ int rotarDerecha()
     fread(&encabezado,sizeof(t_header), 1, pf);
     encabezadoNuevo = encabezado;
 
-    FILE *pf2 = fopen("VANGUARDIA_rotar-derecha_unlam.bmp", "wb");
+    char nombre[255] = "VANGUARDIA_rotar-derecha_";
+    const char* foto = *nombreArchivo;
+    strcat(nombre, foto);
+
+
+    FILE *pf2 = fopen(nombre, "wb");
 
     if(!pf2)
     {

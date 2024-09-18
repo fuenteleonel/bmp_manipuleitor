@@ -8,7 +8,7 @@ void tonalidadAzul(t_pixel *pixel, unsigned char porcentaje)
 
 }
 
-void escalaDeGrises(t_pixel *pixel)
+void escalaDeGrises(t_pixel *pixel, unsigned char porcentaje)
 {
     unsigned char promedio = (pixel->color[BLUE] + pixel->color[RED] + pixel->color[GREEN])/3;
 
@@ -17,17 +17,17 @@ void escalaDeGrises(t_pixel *pixel)
     pixel->color[RED] = promedio;
 }
 
-void negativo(t_pixel *pixel)
+void negativo(t_pixel *pixel, unsigned char porcentaje)
 {
     pixel->color[BLUE]= VALOR_MAX_COLOR_24_BITS_PROF - pixel->color[BLUE];
     pixel->color[RED]= VALOR_MAX_COLOR_24_BITS_PROF - pixel->color[RED];
     pixel->color[GREEN]= VALOR_MAX_COLOR_24_BITS_PROF - pixel->color[GREEN];
 }
 
-int rotarIzquierda()
+int rotarIzquierda(char** nombreArchivo)
 {
 
-    FILE *pf = fopen("unlam.bmp", "rb");
+    FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado, encabezadoNuevo;
     unsigned short tipoFichero;
 
@@ -48,7 +48,12 @@ int rotarIzquierda()
     fread(&encabezado,sizeof(t_header), 1, pf);
     encabezadoNuevo = encabezado;
 
-    FILE *pf2 = fopen("VANGUARDIA_rotar-izquierda_unlam.bmp", "wb");
+    char nombre[255] = "VANGUARDIA_rotar-izquierda_";
+    const char* foto = *nombreArchivo;
+    strcat(nombre, foto);
+
+
+    FILE *pf2 = fopen(nombre, "wb");
 
     if(!pf2)
     {

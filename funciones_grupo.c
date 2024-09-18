@@ -24,11 +24,19 @@
 int solucion(int argc, char* argv[])
 {
     bool argNegativo = false, argEscalaDeGrises = false, argAumentarContraste = false, argReducirContraste = false,
-    argTonalidadAzul = false, argTonalidadVerde = false, argTonalidadRoja = false, argRotarDerecha = false,
-    argRotarIzquierda = false, argComodin = false, argConcatenarHorizontal = false, argConcatenarVertical = false,
-    argEspejarVertical = false, argEspejarHorizontal = false;
+         argTonalidadAzul = false, argTonalidadVerde = false, argTonalidadRoja = false, argRotarDerecha = false,
+         argRotarIzquierda = false, argComodin = false, argConcatenarHorizontal = false, argConcatenarVertical = false,
+         argEspejarVertical = false, argEspejarHorizontal = false;
     char* nombreArchivo;
     char* nombreArchivo2;
+
+    char* neg = "negativo_";
+    char* escalaGrises = "escala-de-grises_";
+    char* aumentarCont = "aumentar-contraste_";
+    char* reducirCont = "reducir-contraste_";
+    char* tonRoja = "tonalidad-roja_";
+    char* tonAzul = "tonalidad-azul_";
+    char* tonVerde = "tonalidad-verde_";
 
     leerArgumentos(argc, argv, &argNegativo, &argEscalaDeGrises,
                    &argAumentarContraste, &argReducirContraste,
@@ -39,66 +47,94 @@ int solucion(int argc, char* argv[])
                    &nombreArchivo, &nombreArchivo2);
 
 
-//    if(argNegativo){
-//        int codNegativo = negativo(pf, &encabezado);
-//        if(codNegativo != TODO_OK){
-//            printf("Error al generar archivo Negativo");
-//        }
-//    }
-//
-//    if(argEscalaDeGrises){
-//        int codEscalaDeGrises = escalaDeGrises(pf, &encabezado);
-//        if(codEscalaDeGrises != TODO_OK){
-//            printf("Error al generar archivo Escala de Grises");
-//        }
-//    }
-//
-//    if(argAumentarContraste){
-//        int codAumentarContraste = aumentarContraste(pf, &encabezado);
-//        if(codAumentarContraste != TODO_OK){
-//            printf("Error al generar archivo Aumentar Contraste");
-//        }
-//    }
-//
-//    if(argReducirContraste){
-//        int codReducirContraste = reducirContraste(pf, &encabezado);
-//        if(codReducirContraste != TODO_OK){
-//            printf("Error al generar archivo Reducir Contraste");
-//        }
-//    }
-//
-//    if(argTonalidadAzul){
-//        int codTonalidadAzul = tonalidad(pf, &encabezado, BLUE);
-//        if(codTonalidadAzul != TODO_OK){
-//            printf("Error al generar archivo Tonalidad Azul");
-//        }
-//    }
-//
-//    if(argTonalidadVerde){
-//        int codTonalidadVerde = tonalidad(pf, &encabezado, GREEN);
-//        if(codTonalidadVerde != TODO_OK){
-//            printf("Error al generar archivo Tonalidad Verde");
-//        }
-//    }
-//
-//    if(argTonalidadRoja){
-//        int codTonalidadRoja = tonalidad(pf, &encabezado, RED);
-//        if(codTonalidadRoja != TODO_OK){
-//            printf("Error al generar archivo Tonalidad Roja");
-//        }
-//    }
+    void (*filtro)(t_pixel* pixel, unsigned char porcentaje);
 
 
-    if(argRotarDerecha){
-        int codRotarDerecha = rotarDerecha();
-        if(codRotarDerecha != TODO_OK){
+    if(argNegativo)
+    {
+        filtro = negativo;
+        int codNegativo = funcionBasica(filtro, 0, &nombreArchivo, neg);
+        if(codNegativo != TODO_OK)
+        {
+            printf("Error al generar archivo Negativo");
+        }
+    }
+
+    if(argEscalaDeGrises)
+    {
+        filtro = escalaDeGrises;
+        int codEscalaDeGrises = funcionBasica(filtro, 0, &nombreArchivo, escalaGrises);
+        if(codEscalaDeGrises != TODO_OK)
+        {
+            printf("Error al generar archivo Escala de Grises");
+        }
+    }
+
+    if(argAumentarContraste)
+    {
+        filtro = aumentarContraste;
+        int codAumentarContraste = funcionBasica(filtro, 25, &nombreArchivo, aumentarCont);
+        if(codAumentarContraste != TODO_OK)
+        {
+            printf("Error al generar archivo Aumentar Contraste");
+        }
+    }
+
+    if(argReducirContraste)
+    {
+        filtro = reducirContraste;
+        int codReducirContraste = funcionBasica(filtro, 25, &nombreArchivo, reducirCont);
+        if(codReducirContraste != TODO_OK)
+        {
+            printf("Error al generar archivo Reducir Contraste");
+        }
+    }
+
+    if(argTonalidadAzul)
+    {
+        filtro = tonalidadAzul;
+        int codTonalidadAzul = funcionBasica(filtro, 25, &nombreArchivo, tonAzul);
+        if(codTonalidadAzul != TODO_OK)
+        {
+            printf("Error al generar archivo Tonalidad Azul");
+        }
+    }
+
+    if(argTonalidadVerde)
+    {
+        filtro = tonalidadVerde;
+        int codTonalidadVerde = funcionBasica(filtro, 25, &nombreArchivo, tonVerde);
+        if(codTonalidadVerde != TODO_OK)
+        {
+            printf("Error al generar archivo Tonalidad Verde");
+        }
+    }
+
+    if(argTonalidadRoja)
+    {
+        filtro = tonalidadRoja;
+        int codTonalidadRoja = funcionBasica(filtro, 25, &nombreArchivo, tonRoja);
+        if(codTonalidadRoja != TODO_OK)
+        {
+            printf("Error al generar archivo Tonalidad Roja");
+        }
+    }
+
+
+    if(argRotarDerecha)
+    {
+        int codRotarDerecha = rotarDerecha(&nombreArchivo);
+        if(codRotarDerecha != TODO_OK)
+        {
             printf("Error al generar archivo Rotar Derecha");
         }
     }
 
-    if(argRotarIzquierda){
-        int codRotarIzquierda = rotarIzquierda();
-        if(codRotarIzquierda != TODO_OK){
+    if(argRotarIzquierda)
+    {
+        int codRotarIzquierda = rotarIzquierda(&nombreArchivo);
+        if(codRotarIzquierda != TODO_OK)
+        {
             printf("Error al generar archivo Rotar Izquierda");
         }
     }
@@ -110,85 +146,41 @@ int solucion(int argc, char* argv[])
 //        }
 //    }
 
-    if(argConcatenarHorizontal){
-        int codConcatenarHorizontal = concatenarHorizontal();
-        if(codConcatenarHorizontal != TODO_OK){
+    if(argConcatenarHorizontal)
+    {
+        int codConcatenarHorizontal = concatenarHorizontal(&nombreArchivo, &nombreArchivo2);
+        if(codConcatenarHorizontal != TODO_OK)
+        {
             printf("Error al generar archivo Concatenar Horizontal");
         }
     }
 
-    if(argConcatenarVertical){
-        int codConcatenarVertical = concatenarVertical();
-        if(codConcatenarVertical != TODO_OK){
+    if(argConcatenarVertical)
+    {
+        int codConcatenarVertical = concatenarVertical(&nombreArchivo,&nombreArchivo2);
+        if(codConcatenarVertical != TODO_OK)
+        {
             printf("Error al generar archivo Concatenar Vertical");
         }
     }
 
-    if(argEspejarHorizontal){
-        int codEspejarHorizontal = espejarHorizontal();
-        if(codEspejarHorizontal != TODO_OK){
+    if(argEspejarHorizontal)
+    {
+        int codEspejarHorizontal = espejarHorizontal(&nombreArchivo);
+        if(codEspejarHorizontal != TODO_OK)
+        {
             printf("Error al generar archivo Espejar Horizontal");
         }
     }
 
-    if(argEspejarVertical){
-        int codEspejarVertical = espejarVertical();
-        if(codEspejarVertical != TODO_OK){
+    if(argEspejarVertical)
+    {
+        int codEspejarVertical = espejarVertical(&nombreArchivo);
+        if(codEspejarVertical != TODO_OK)
+        {
             printf("Error al generar archivo Espejar Vertical");
         }
     }
-
-
-
-///Todas las basicas
-
-//    FILE *pf = fopen("unlam.bmp", "rb");
-//    t_header encabezado;
-//    unsigned short tipoFichero;
-//
-//    if(!pf)
-//    {
-//        puts("Error al intentar abrir el archivo.");
-//        return ARCH_NO_ENCONTRADO;
-//    }
-//
-//    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
-//
-//    if(tipoFichero != TIPO_BMP)
-//    {
-//        fclose(pf);
-//        return FORMATO_INCORRECTO;
-//    }
-//
-//    fread(&encabezado,sizeof(t_header), 1, pf);
-//    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
-//
-//    FILE *pf2 = fopen("unlam-copia.bmp", "wb");
-//
-//    if(!pf2)
-//    {
-//        puts("Error al intentar abrir el archivo.");
-//        return ARCH_NO_ENCONTRADO;
-//    }
-//
-//    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
-//
-//    fwrite(&encabezado,sizeof(t_header), 1, pf2);
-//
-//    fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
-//
-//    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho);
-//
-//    for(int i = 0; i < encabezado.alto; i++)
-//        for(int j = 0; j < (encabezado.ancho); j++)
-//        {
-//            fread(&matImgOrig[i][j],sizeof(char),3,pf);
-//            negativo(&matImgOrig[i][j]);
-//            fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
-//        }
-//    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
-//    fclose(pf);
-//    fclose(pf2);
 
 
     return TODO_OK;

@@ -5,9 +5,9 @@
 
 void reducirContraste(t_pixel *pixel, unsigned char porcentaje);
 void tonalidadVerde(t_pixel *pixel, unsigned char porcentaje);
-int espejarHorizontal();
-int concatenarVertical();
-int rotarDerecha();
+int espejarHorizontal(char** nombreArchivo);
+int concatenarVertical(char** nombreArchivo, char** nombreArchivo2);
+int rotarDerecha(char** nombreArchivo);
 
 
 #endif // FUNCIONES_FERNANDES_H_INCLUDED
