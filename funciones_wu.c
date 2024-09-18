@@ -68,23 +68,75 @@ int rotarIzquierda(char** nombreArchivo)
     encabezadoNuevo.ancho = encabezado.alto;
 
     fwrite(&encabezadoNuevo,sizeof(t_header), 1, pf2);
-
+    paddingInicial(pf2, encabezado.comienzoImagen);
     fseek(pf, encabezado.comienzoImagen, SEEK_SET);
     fseek(pf2, encabezadoNuevo.comienzoImagen, SEEK_SET);
+
+    int padding = encabezado.ancho*3 % 4 == 0 ? 0 : 4 - encabezado.ancho*3 % 4;
+    int paddingNuevo = encabezadoNuevo.ancho*3 % 4 == 0 ? 0 : 4 - encabezadoNuevo.ancho*3 % 4;
 
     t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
 
     for(int i = 0; i < encabezado.alto; i++)
+    {
+
         for(int j = 0; j < encabezado.ancho; j++)
             fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
 
-    for(int i = 0; i < encabezado.ancho; i++)
-        for(int j = encabezado.alto - 1; j >= 0; j--)
+        fseek(pf, padding, SEEK_CUR);
+    }
+    for(int i = 0; i < encabezadoNuevo.alto; i++)
+        for(int j = encabezadoNuevo.ancho - 1; j >= 0; j--)
+        {
             fwrite(&matImgOrig[j][i], sizeof(t_pixel), 1, pf2);
+            paddingLinea(pf2, paddingNuevo);
+        }
 
     matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
     fclose(pf);
     fclose(pf2);
 
     return TODO_OK;
+}
+
+void comodin(t_pixel *pixel, unsigned char porcentaje)
+{
+
+    unsigned char promedio = (pixel->color[BLUE] + pixel->color[RED] + pixel->color[GREEN])/3;
+    if (promedio < 43)
+    {
+        pixel->color[BLUE] = 0;
+        pixel->color[GREEN] = 0;
+        pixel->color[RED] = 255;
+    }
+    else if (promedio < 85)
+    {
+        pixel->color[BLUE] = 0;
+        pixel->color[GREEN] = 255;
+        pixel->color[RED] = 255;
+    }
+    else if (promedio < 128)
+    {
+        pixel->color[BLUE] = 0;
+        pixel->color[GREEN] = 255;
+        pixel->color[RED] = 0;
+    }
+    else if (promedio < 171)
+    {
+        pixel->color[BLUE] = 255;
+        pixel->color[GREEN] = 255;
+        pixel->color[RED] = 0;
+    }
+    else if (promedio < 214)
+    {
+        pixel->color[BLUE] = 255;
+        pixel->color[GREEN] = 165;
+        pixel->color[RED] = 0;
+    }
+    else
+    {
+        pixel->color[BLUE] = 255;
+        pixel->color[GREEN] = 0;
+        pixel->color[RED] = 0;
+    }
 }

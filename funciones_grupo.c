@@ -31,6 +31,7 @@ int solucion(int argc, char* argv[])
     char* nombreArchivo2;
 
     char* neg = "negativo_";
+    char* com = "comodin_";
     char* escalaGrises = "escala-de-grises_";
     char* aumentarCont = "aumentar-contraste_";
     char* reducirCont = "reducir-contraste_";
@@ -60,6 +61,16 @@ int solucion(int argc, char* argv[])
         if(codNegativo != TODO_OK)
         {
             printf("Error al generar archivo Negativo");
+        }
+    }
+
+    if(argComodin)
+    {
+        filtro = comodin;
+        int codComodin = funcionBasica(filtro, 0, &nombreArchivo, com);
+        if(codComodin != TODO_OK)
+        {
+            printf("Error al generar archivo Comodin");
         }
     }
 
@@ -141,13 +152,6 @@ int solucion(int argc, char* argv[])
             printf("Error al generar archivo Rotar Izquierda");
         }
     }
-
-//    if(argComodin){
-//        int codComodin = comodin(pf, &encabezado);
-//        if(codComodin != TODO_OK){
-//            printf("Error al generar archivo Comodin");
-//        }
-//    }
 
     if(argConcatenarHorizontal)
     {

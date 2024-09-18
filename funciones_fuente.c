@@ -178,7 +178,6 @@ int espejarVertical(char** nombreArchivo)
     }
 
     fread(&encabezado,sizeof(t_header), 1, pf);
-    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
 
     char nombre[255] = "VANGUARDIA_espejar-vertical_";
     const char* foto = *nombreArchivo;
@@ -195,17 +194,28 @@ int espejarVertical(char** nombreArchivo)
 
     fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
     fwrite(&encabezado,sizeof(t_header), 1, pf2);
+    paddingInicial(pf2, encabezado.comienzoImagen);
+    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
     fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
+
+    int padding = encabezado.ancho*3 % 4 == 0 ? 0 : 4 - encabezado.ancho*3 % 4;
 
     t_pixel** matEspejadaV = (t_pixel**)matrizCrear(sizeof(t_pixel), (size_t)encabezado.alto, (size_t)encabezado.ancho);
 
     for(int i = encabezado.alto - 1; i >= 0; i--)
+    {
         for(int j = 0; j < encabezado.ancho; j++)
             fread(&matEspejadaV[i][j], sizeof(t_pixel), 1, pf);
 
+        fseek(pf, padding, SEEK_CUR);
+    }
     for(int i = 0; i < encabezado.alto; i++)
+    {
         for(int j = 0; j < encabezado.ancho; j++)
             fwrite(&matEspejadaV[i][j], sizeof(t_pixel), 1, pf2);
+
+        paddingLinea(pf2, padding);
+    }
 
     matrizDestruir((void**)matEspejadaV, (size_t)encabezado.alto);
     fclose(pf);
@@ -279,6 +289,12 @@ int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2)
     fwrite(&tipoFichero, sizeof(unsigned short), 1, pf3);
     fwrite(&encabezadoNuevo, sizeof(t_header), 1, pf3);
 
+    paddingInicial(pf3, encabezadoNuevo.comienzoImagen);
+
+    int padding = encabezado.ancho*3 % 4 == 0 ? 0 : 4 - encabezado.ancho*3 % 4;
+    int padding2 = encabezado2.ancho*3 % 4 == 0 ? 0 : 4 - encabezado2.ancho*3 % 4;
+    int paddingNuevo = encabezadoNuevo.ancho*3 % 4 == 0 ? 0 : 4 - encabezadoNuevo.ancho*3 % 4;
+
     fseek(pf, encabezado.comienzoImagen, SEEK_SET);
     fseek(pf2, encabezado2.comienzoImagen, SEEK_SET);
     fseek(pf3, encabezadoNuevo.comienzoImagen, SEEK_SET);
@@ -289,14 +305,16 @@ int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2)
     char color [3]= {0,0,255};
 
     for(int i = 0; i < encabezado.alto; i++)
-        for(int j = 0; j < encabezado.ancho; j++)
-
-            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+    {
+        fread(matImgOrig[i], sizeof(t_pixel), encabezado.ancho, pf);
+        fseek(pf, padding, SEEK_CUR);
+    }
 
     for(int i = 0; i < encabezado2.alto; i++)
-        for(int j = 0; j < encabezado2.ancho; j++)
-
-            fread(&matImgOrig2[i][j], sizeof(t_pixel), 1, pf2);
+    {
+        fread(matImgOrig2[i], sizeof(t_pixel), encabezado2.ancho, pf2);
+        fseek(pf2, padding2, SEEK_CUR);
+    }
 
     for (int i = 0; i < encabezadoNuevo.alto; i++)
     {
@@ -306,23 +324,19 @@ int concatenarHorizontal(char** nombreArchivo, char** nombreArchivo2)
         }
         else
         {
-            for (int j = 0; j < encabezado.ancho; j++)
-            {
+            for(int j = 0; j < encabezado.ancho; j++)
                 fwrite(&color, sizeof(t_pixel), 1, pf3);
-            }
         }
         if (i < encabezado2.alto)
-        {
             fwrite(matImgOrig2[i], sizeof(t_pixel), encabezado2.ancho, pf3);
-        }
         else
         {
-            for (int j = 0; j < encabezado2.ancho; j++)
-            {
+            for(int j = 0; j < encabezado2.ancho; j++)
                 fwrite(&color, sizeof(t_pixel), 1, pf3);
-            }
         }
+        paddingLinea(pf3, paddingNuevo);
     }
+
 
     matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
 
@@ -511,103 +525,114 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
             contArgs++;
             continue;
         }
-            if(strcmp(argv[i], "--ayuda") == 0)
-            {
-                puts("----Manipulador de Imagenes BMP---- \n"
-                     "Este programa crea nuevas imagenes a partir de una foto BMP original. "
-                     "Se debe enviar al menos 1 ruta de imagen BMP ejemplo 'hola.bmp' y alguna de las funciones detalladas a continuacion. "
-                     "Se creara una nueva imagen por cada comando invocado. \n"
-                     "Las posibles funciones para agregar son: \n"
-                     "--negativo : Se invierten los colores de la imagen original. \n"
-                     "--escala-de-grises : Unicamente con colores de la escala de grises. \n"
-                     "--aumentar-contraste : Se aumenta el contraste un porcentaje de 0 a 100. \n"
-                     "--reducir-contraste : Se reduce el contraste un porcentaje de 0 a 100. \n"
-                     "--tonalidad-azul : Aumenta en un porcentaje de 0 a 100 la intensidad del color Azul \n"
-                     "--tonalidad-verde : Aumenta en un porcentaje de 0 a 100 la intensidad del color Verde \n"
-                     "--tonalidad-roja : Aumenta en un porcentaje de 0 a 100 la intensidad del color Rojo \n"
-                     "--rotar-derecha : Gira la imagen 90 grados a la derecha \n"
-                     "--rotar-izquierda : Gira la imagen 90 grados a la izquierda \n"
-                     "--comodin : Sorpresa  \n"
-                     "--concatenar-horizontal : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una al lado de la otra \n"
-                     "--concatenar-vertical : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una arriba de la otra \n"
-                     "--espejar-horizontal : Invierte horizontalmente la imagen \n"
-                     "--espejar-horizontal : Invierte verticalmente la imagen\n"
-                    );
-                contArgs++;
-                argAyuda = true;
-                continue;
-            }
-            printf("Comando %s no existe \n", argv[i]);
-        }
-        if(primerArchivo == 0 && !argAyuda)
+        if(strcmp(argv[i], "--ayuda") == 0)
         {
-            puts("No se detectó ningun archivo bmp en los argumentos. Ejecute el comando --ayuda para más detalles");
+            puts("----Manipulador de Imagenes BMP---- \n"
+                 "Este programa crea nuevas imagenes a partir de una foto BMP original. "
+                 "Se debe enviar al menos 1 ruta de imagen BMP ejemplo 'hola.bmp' y alguna de las funciones detalladas a continuacion. "
+                 "Se creara una nueva imagen por cada comando invocado. \n"
+                 "Las posibles funciones para agregar son: \n"
+                 "--negativo : Se invierten los colores de la imagen original. \n"
+                 "--escala-de-grises : Unicamente con colores de la escala de grises. \n"
+                 "--aumentar-contraste : Se aumenta el contraste un porcentaje de 0 a 100. \n"
+                 "--reducir-contraste : Se reduce el contraste un porcentaje de 0 a 100. \n"
+                 "--tonalidad-azul : Aumenta en un porcentaje de 0 a 100 la intensidad del color Azul \n"
+                 "--tonalidad-verde : Aumenta en un porcentaje de 0 a 100 la intensidad del color Verde \n"
+                 "--tonalidad-roja : Aumenta en un porcentaje de 0 a 100 la intensidad del color Rojo \n"
+                 "--rotar-derecha : Gira la imagen 90 grados a la derecha \n"
+                 "--rotar-izquierda : Gira la imagen 90 grados a la izquierda \n"
+                 "--comodin : Sorpresa  \n"
+                 "--concatenar-horizontal : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una al lado de la otra \n"
+                 "--concatenar-vertical : *Requiere una segunda imagen como argumento*. Concatena ambas imagenes una arriba de la otra \n"
+                 "--espejar-horizontal : Invierte horizontalmente la imagen \n"
+                 "--espejar-horizontal : Invierte verticalmente la imagen\n"
+                );
+            contArgs++;
+            argAyuda = true;
+            continue;
         }
-        if(contArgs == 0)
-        {
-            puts("No se detectaron llamadas a funciones dentro de los argumentos. Ejecute el comando --ayuda para visualizar las funcionalidades diponibles");
-        }
-
-
+        printf("Comando %s no existe \n", argv[i]);
     }
-
-    int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo,
-                      char* nombreFiltro)
+    if(primerArchivo == 0 && !argAyuda)
     {
-        FILE *pf = fopen(*nombreArchivo, "rb");
-        t_header encabezado;
-        unsigned short tipoFichero;
-
-        if(!pf)
-        {
-            puts("Error al intentar abrir el archivo.");
-            return ARCH_NO_ENCONTRADO;
-        }
-
-        fread(&tipoFichero, sizeof(unsigned short), 1, pf);
-
-        if(tipoFichero != TIPO_BMP)
-        {
-            fclose(pf);
-            return FORMATO_INCORRECTO;
-        }
-
-        fread(&encabezado,sizeof(t_header), 1, pf);
-        fseek(pf, encabezado.comienzoImagen, SEEK_SET);
-
-        char nombre[255] = "VANGUARDIA_";
-        const char* filter = nombreFiltro;
-        strcat(nombre, filter);
-        const char* foto = *nombreArchivo;
-        strcat(nombre, foto);
-
-        FILE *pf2 = fopen(nombre, "wb");
-
-        if(!pf2)
-        {
-            puts("Error al intentar abrir el archivo.");
-            return ARCH_NO_ENCONTRADO;
-        }
-
-        fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
-
-        fwrite(&encabezado,sizeof(t_header), 1, pf2);
-
-        fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
-
-        t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho);
-
-        for(int i = 0; i < encabezado.alto; i++)
-            for(int j = 0; j < (encabezado.ancho); j++)
-            {
-                fread(&matImgOrig[i][j],sizeof(char),3,pf);
-                filtro(&matImgOrig[i][j], porcentaje);
-                fwrite(&matImgOrig[i][j],sizeof(char),3,pf2);
-            }
-        matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
-        fclose(pf);
-        fclose(pf2);
-
-        return TODO_OK;
+        puts("No se detectó ningun archivo bmp en los argumentos. Ejecute el comando --ayuda para más detalles");
     }
+    if(contArgs == 0)
+    {
+        puts("No se detectaron llamadas a funciones dentro de los argumentos. Ejecute el comando --ayuda para visualizar las funcionalidades diponibles");
+    }
+
+
+}
+
+int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo,
+                  char* nombreFiltro)
+{
+    FILE *pf = fopen(*nombreArchivo, "rb");
+    t_header encabezado;
+    unsigned short tipoFichero;
+
+    if(!pf)
+    {
+        puts("Error al intentar abrir el archivo.");
+        return ARCH_NO_ENCONTRADO;
+    }
+
+    fread(&tipoFichero, sizeof(unsigned short), 1, pf);
+
+    if(tipoFichero != TIPO_BMP)
+    {
+        fclose(pf);
+        return FORMATO_INCORRECTO;
+    }
+
+    fread(&encabezado,sizeof(t_header), 1, pf);
+
+    char nombre[255] = "VANGUARDIA_";
+    const char* filter = nombreFiltro;
+    strcat(nombre, filter);
+    const char* foto = *nombreArchivo;
+    strcat(nombre, foto);
+
+    FILE *pf2 = fopen(nombre, "wb");
+
+    if(!pf2)
+    {
+        puts("Error al intentar abrir el archivo.");
+        return ARCH_NO_ENCONTRADO;
+    }
+
+    fwrite(&tipoFichero, sizeof(unsigned short), 1, pf2);
+
+    fwrite(&encabezado,sizeof(t_header), 1, pf2);
+    paddingInicial(pf2, encabezado.comienzoImagen);
+    fseek(pf, encabezado.comienzoImagen, SEEK_SET);
+    fseek(pf2, encabezado.comienzoImagen, SEEK_SET);
+
+
+    int padding = encabezado.ancho*3 % 4 == 0 ? 0 : 4 - (encabezado.ancho*3 % 4);
+
+    t_pixel** matImgOrig = (t_pixel**)matrizCrear(sizeof(t_pixel), encabezado.alto,encabezado.ancho + padding);
+
+
+    for(int i = 0; i < encabezado.alto; i++)
+    {
+
+        for(int j = 0; j < (encabezado.ancho + padding); j++)
+        {
+            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+            filtro(&matImgOrig[i][j], porcentaje);
+            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
+        }
+
+    }
+    matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
+    fclose(pf);
+    fclose(pf2);
+
+    return TODO_OK;
+
+
+
+}
 
