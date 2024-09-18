@@ -2,24 +2,21 @@
     Integrantes del grupo. En caso de ser un grupo de dos integrantes, no completar el último campo.
     Si alguno de los integrantes del grupo dejara la materia, completar de todos modos sus datos, aclarando que no entrega.
     -----------------
-    Apellido: Fernandes
-    Nombre: Matias
+    Apellido: Fernandes, Matias
     DNI: 43909868
     Entrega: SI
     -----------------
-    Apellido: Fuente
-    Nombre: Leonel
+    Apellido: Fuente, Leonel
     DNI: 42720496
     Entrega: SI
     -----------------
-    Apellido: Wu
-    Nombre: Pablo
+    Apellido: Wu, Pablo
     DNI: 41572967
     Entrega: SI
     -----------------
 */
-#include "funciones_grupo.h"
 
+#include "funciones_grupo.h"
 
 int solucion(int argc, char* argv[])
 {
@@ -29,7 +26,6 @@ int solucion(int argc, char* argv[])
          argEspejarVertical = false, argEspejarHorizontal = false;
     char* nombreArchivo;
     char* nombreArchivo2;
-
     char* neg = "negativo_";
     char* com = "comodin_";
     char* escalaGrises = "escala-de-grises_";
@@ -50,145 +46,101 @@ int solucion(int argc, char* argv[])
                    &nombreArchivo, &nombreArchivo2,
                    &porcAumCont, &porcRedCont, &porcTonAzul, &porcTonVerde, &porcTonRoja);
 
-
     void (*filtro)(t_pixel* pixel, unsigned char porcentaje);
 
+    int codigoFuncion;
 
     if(argNegativo)
     {
         filtro = negativo;
-        int codNegativo = funcionBasica(filtro, 0, &nombreArchivo, neg);
-        if(codNegativo != TODO_OK)
-        {
-            printf("Error al generar archivo Negativo");
-        }
+        codigoFuncion = funcionBasica(filtro, 0, &nombreArchivo, neg);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Negativo.");
     }
-
     if(argComodin)
     {
         filtro = comodin;
-        int codComodin = funcionBasica(filtro, 0, &nombreArchivo, com);
-        if(codComodin != TODO_OK)
-        {
-            printf("Error al generar archivo Comodin");
-        }
+        codigoFuncion = funcionBasica(filtro, 0, &nombreArchivo, com);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Comodin.");
     }
-
     if(argEscalaDeGrises)
     {
         filtro = escalaDeGrises;
-        int codEscalaDeGrises = funcionBasica(filtro, 0, &nombreArchivo, escalaGrises);
-        if(codEscalaDeGrises != TODO_OK)
-        {
-            printf("Error al generar archivo Escala de Grises");
-        }
+        codigoFuncion = funcionBasica(filtro, 0, &nombreArchivo, escalaGrises);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Escala de Grises.");
     }
-
     if(argAumentarContraste)
     {
         filtro = aumentarContraste;
-        int codAumentarContraste = funcionBasica(filtro, porcAumCont, &nombreArchivo, aumentarCont);
-        if(codAumentarContraste != TODO_OK)
-        {
-            printf("Error al generar archivo Aumentar Contraste");
-        }
+        codigoFuncion = funcionBasica(filtro, porcAumCont, &nombreArchivo, aumentarCont);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Aumentar Contraste.");
     }
-
     if(argReducirContraste)
     {
         filtro = reducirContraste;
-        int codReducirContraste = funcionBasica(filtro, porcRedCont, &nombreArchivo, reducirCont);
-        if(codReducirContraste != TODO_OK)
-        {
-            printf("Error al generar archivo Reducir Contraste");
-        }
+        codigoFuncion = funcionBasica(filtro, porcRedCont, &nombreArchivo, reducirCont);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Reducir Contraste.");
     }
-
     if(argTonalidadAzul)
     {
         filtro = tonalidadAzul;
-        int codTonalidadAzul = funcionBasica(filtro, porcTonAzul, &nombreArchivo, tonAzul);
-        if(codTonalidadAzul != TODO_OK)
-        {
-            printf("Error al generar archivo Tonalidad Azul");
-        }
+        codigoFuncion = funcionBasica(filtro, porcTonAzul, &nombreArchivo, tonAzul);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Tonalidad Azul.");
     }
-
     if(argTonalidadVerde)
     {
         filtro = tonalidadVerde;
-        int codTonalidadVerde = funcionBasica(filtro, porcTonVerde, &nombreArchivo, tonVerde);
-        if(codTonalidadVerde != TODO_OK)
-        {
-            printf("Error al generar archivo Tonalidad Verde");
-        }
+        codigoFuncion = funcionBasica(filtro, porcTonVerde, &nombreArchivo, tonVerde);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Tonalidad Verde.");
     }
-
     if(argTonalidadRoja)
     {
         filtro = tonalidadRoja;
-        int codTonalidadRoja = funcionBasica(filtro, porcTonRoja, &nombreArchivo, tonRoja);
-        if(codTonalidadRoja != TODO_OK)
-        {
-            printf("Error al generar archivo Tonalidad Roja");
-        }
+        codigoFuncion = funcionBasica(filtro, porcTonRoja, &nombreArchivo, tonRoja);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Tonalidad Roja.");
     }
-
-
     if(argRotarDerecha)
     {
-        int codRotarDerecha = rotarDerecha(&nombreArchivo);
-        if(codRotarDerecha != TODO_OK)
-        {
-            printf("Error al generar archivo Rotar Derecha");
-        }
+        codigoFuncion = rotarDerecha(&nombreArchivo);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Rotar Derecha.");
     }
-
     if(argRotarIzquierda)
     {
-        int codRotarIzquierda = rotarIzquierda(&nombreArchivo);
-        if(codRotarIzquierda != TODO_OK)
-        {
-            printf("Error al generar archivo Rotar Izquierda");
-        }
+        codigoFuncion = rotarIzquierda(&nombreArchivo);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Rotar Izquierda.");
     }
-
     if(argConcatenarHorizontal)
     {
-        int codConcatenarHorizontal = concatenarHorizontal(&nombreArchivo, &nombreArchivo2);
-        if(codConcatenarHorizontal != TODO_OK)
-        {
-            printf("Error al generar archivo Concatenar Horizontal");
-        }
+        codigoFuncion = concatenarHorizontal(&nombreArchivo, &nombreArchivo2);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Concatenar Horizontal.");
     }
-
     if(argConcatenarVertical)
     {
-        int codConcatenarVertical = concatenarVertical(&nombreArchivo,&nombreArchivo2);
-        if(codConcatenarVertical != TODO_OK)
-        {
-            printf("Error al generar archivo Concatenar Vertical");
-        }
+        codigoFuncion = concatenarVertical(&nombreArchivo,&nombreArchivo2);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Concatenar Vertical.");
     }
-
     if(argEspejarHorizontal)
     {
-        int codEspejarHorizontal = espejarHorizontal(&nombreArchivo);
-        if(codEspejarHorizontal != TODO_OK)
-        {
-            printf("Error al generar archivo Espejar Horizontal");
-        }
+        codigoFuncion = espejarHorizontal(&nombreArchivo);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Espejar Horizontal.");
     }
-
     if(argEspejarVertical)
     {
-        int codEspejarVertical = espejarVertical(&nombreArchivo);
-        if(codEspejarVertical != TODO_OK)
-        {
-            printf("Error al generar archivo Espejar Vertical");
-        }
+        codigoFuncion = espejarVertical(&nombreArchivo);
+        if(codigoFuncion != TODO_OK)
+            printf("Error al generar archivo Espejar Vertical.");
     }
-
-
     return TODO_OK;
 }

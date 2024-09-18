@@ -49,41 +49,40 @@
 
 1712539559 /home/ezequiel/Escritorio/bmpmanipuleitor/funciones_estudiante.h
 
-1725899940 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_fernandes.c
+1726700332 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_fernandes.c
 	"funciones_fernandes.h"
 
-1726527684 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_fuente.c
+1726700691 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_fuente.c
 	"funciones_fuente.h"
 
-1726539162 c:\users\matias\downloads\bmp_manipuleitor\funciones_fuente.h
+1726699187 c:\users\matias\downloads\bmp_manipuleitor\funciones_fuente.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
 	<string.h>
-	"estructuras.h"
 
-1725403927 c:\users\matias\downloads\bmp_manipuleitor\funciones_grupo.h
+1726698014 c:\users\matias\downloads\bmp_manipuleitor\funciones_grupo.h
 	"funciones_rufino.h"
 	"funciones_fuente.h"
 	"funciones_fernandes.h"
 	"funciones_wu.h"
 
-1726537585 c:\users\matias\downloads\bmp_manipuleitor\funciones_fernandes.h
+1726699069 c:\users\matias\downloads\bmp_manipuleitor\funciones_fernandes.h
 	"funciones_fuente.h"
 
-1726539162 c:\users\matias\downloads\bmp_manipuleitor\funciones_wu.h
+1726698915 c:\users\matias\downloads\bmp_manipuleitor\funciones_wu.h
 	"funciones_fuente.h"
 
-1726522072 c:\users\matias\downloads\bmp_manipuleitor\estructuras.h
+1726698014 c:\users\matias\downloads\bmp_manipuleitor\estructuras.h
 
-1726522072 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_wu.c
+1726699187 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_wu.c
 	"funciones_wu.h"
 
 1725403091 source:c:\users\matias\downloads\bmp_manipuleitor\main.c
 	<stdio.h>
 	"funciones_grupo.h"
 
-1726539361 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_grupo.c
+1726700332 source:c:\users\matias\downloads\bmp_manipuleitor\funciones_grupo.c
 	"funciones_grupo.h"
 
 1726689594 source:c:\users\leo\desktop\top.prog\tp\bmp_manipuleitor\funciones_fernandes.c

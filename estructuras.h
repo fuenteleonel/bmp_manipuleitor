@@ -6,7 +6,7 @@ typedef struct
     unsigned char color[3];
     //unsigned int profundidad; //Esta estructura admite formatos de distinta profundidad de color.
 
-}t_pixel;
+} t_pixel;
 
 typedef struct
 {
@@ -15,7 +15,7 @@ typedef struct
     unsigned int ancho;
     unsigned int alto;
     unsigned short profundidad;
-}t_metadata;
+} t_metadata;
 
 typedef struct
 {
@@ -33,6 +33,6 @@ typedef struct
     unsigned int resolV;
     unsigned int tamColor;
     unsigned int cantColores;
-}t_header;
+} t_header;
 
 #endif // ESTRUCTURAS_H_INCLUDED
