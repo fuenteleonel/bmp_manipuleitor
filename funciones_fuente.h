@@ -21,6 +21,8 @@
 #define FORMATO_INCORRECTO 4
 #define ERROR_CREAR_ARCHIVO 5
 
+
+
 typedef struct
 {
     unsigned char color[3];
@@ -44,6 +46,7 @@ typedef struct
     unsigned int cantColores;
 } t_header;
 
+typedef void (*filtro)(t_pixel* pixel, unsigned char porcentaje);
 
 void** matrizCrear(size_t tamElem, size_t filas, size_t columnas);
 void matrizDestruir(void** mat, size_t filas);
@@ -64,7 +67,7 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
                     unsigned char* porcAumCont, unsigned char* porcRedCont, unsigned char* porcTonAzul,
                     unsigned char* porcTonVerde, unsigned char* porcTonRoja);
 
-int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo, char* nombreFiltro);
+int funcionBasica(filtro funcionFiltro, unsigned char porcentaje, char** nombreArchivo, char* nombreFiltro);
 
 void aumentarContraste(t_pixel *pixel, unsigned char porcentaje);
 void tonalidadRoja(t_pixel *pixel, unsigned char porcentaje);

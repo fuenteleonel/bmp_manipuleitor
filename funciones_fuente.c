@@ -481,8 +481,8 @@ void leerArgumentos(int argc, char* argv[], bool* argNegativo, bool* argEscalaDe
 
 }
 
-int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsigned char porcentaje, char** nombreArchivo,
-                  char* nombreFiltro)
+int funcionBasica(filtro funcionFiltro, unsigned char porcentaje, char** nombreArchivo, char* nombreFiltro)
+
 {
     FILE *pf = fopen(*nombreArchivo, "rb");
     t_header encabezado;
@@ -537,7 +537,7 @@ int funcionBasica(void (*filtro)(t_pixel* pixel, unsigned char porcentaje), unsi
         for(int j = 0; j < (encabezado.ancho + padding); j++)
         {
             fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
-            filtro(&matImgOrig[i][j], porcentaje);
+            funcionFiltro(&matImgOrig[i][j], porcentaje);
             fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
         }
 
