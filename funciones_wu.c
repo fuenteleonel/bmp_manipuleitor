@@ -76,18 +76,15 @@ int rotarIzquierda(char** nombreArchivo)
 
     for(int i = 0; i < encabezado.alto; i++)
     {
-
-        for(int j = 0; j < encabezado.ancho; j++)
-            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+        fread(matImgOrig[i], sizeof(t_pixel), encabezado.ancho, pf);
         fseek(pf, padding, SEEK_CUR);
     }
-    for(int i = 0; i < encabezadoNuevo.alto; i++)
-        for(int j = encabezadoNuevo.ancho - 1; j >= 0; j--)
-        {
-            fwrite(&matImgOrig[j][i], sizeof(t_pixel), 1, pf2);
-            paddingLinea(pf2, paddingNuevo);
-        }
-
+    for(int j = 0; j < encabezado.ancho; j++)
+    {
+        for(int i = encabezado.alto - 1; i >= 0; i--)
+            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
+        paddingLinea(pf2, paddingNuevo);
+    }
     matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
     fclose(pf);
     fclose(pf2);

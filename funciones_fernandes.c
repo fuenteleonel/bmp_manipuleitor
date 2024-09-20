@@ -10,7 +10,8 @@ void reducirContraste(t_pixel *pixel, unsigned char porcentaje)
         aumentarPorcentaje(&pixel->color[RED], porcentaje, VALOR_MEDIO_COLOR);
         aumentarPorcentaje(&pixel->color[GREEN], porcentaje, VALOR_MEDIO_COLOR);
 
-    }else
+    }
+    else
     {
         disminuirPorcentaje(&pixel->color[BLUE], porcentaje, VALOR_MEDIO_COLOR);
         disminuirPorcentaje(&pixel->color[RED], porcentaje, VALOR_MEDIO_COLOR);
@@ -279,17 +280,16 @@ int rotarDerecha(char** nombreArchivo)
 
     for(int i = 0; i < encabezado.alto; i++)
     {
-        for(int j = 0; j < encabezado.ancho; j++)
-            fread(&matImgOrig[i][j], sizeof(t_pixel), 1, pf);
+        fread(matImgOrig[i], sizeof(t_pixel), encabezado.ancho, pf);
         fseek(pf, padding, SEEK_CUR);
     }
-    for(int i = encabezadoNuevo.alto - 1; i >= 0; i--)
-        for(int j = 0; j < encabezadoNuevo.ancho; j++)
-        {
-            fwrite(&matImgOrig[j][i], sizeof(t_pixel), 1, pf2);
-            paddingLinea(pf2, paddingNuevo);
-        }
 
+    for(int j = encabezado.ancho - 1; j >= 0; j--)
+    {
+        for(int i = 0; i < encabezado.alto; i++)
+            fwrite(&matImgOrig[i][j], sizeof(t_pixel), 1, pf2);
+        paddingLinea(pf2, paddingNuevo);
+    }
     matrizDestruir((void**)matImgOrig, (size_t)encabezado.alto);
     fclose(pf);
     fclose(pf2);
